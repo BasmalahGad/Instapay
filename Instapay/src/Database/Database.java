@@ -17,10 +17,18 @@ public class Database implements DatabaseAccessLayer{
 
     @Override
     public User searchUser(String username, String password) {
-        for(int i = 0; i < users.size(); i++)
-        {
-            if(users.get(i).getInstapayProfile().getUsername() == username && users.get(i).getInstapayProfile().getPassword() == password)
-                return users.get(i);
+        for (User user : users) {
+            if (user.getInstapayProfile().getUsername() == username && user.getInstapayProfile().getPassword() == password)
+                return user;
+        }
+        return null;
+    }
+
+    @Override
+    public User contain(String username) {
+        for (User user : users) {
+            if (user.getInstapayProfile().getUsername() == username)
+                return user;
         }
         return null;
     }
