@@ -1,4 +1,4 @@
 package UserVerification;
 
-public interface BankAuthentication extends AuthenticationServices{
+public interface BankAuthentication extends AuthenticationService {
 }

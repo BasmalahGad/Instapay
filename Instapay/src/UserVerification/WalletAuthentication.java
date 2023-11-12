@@ -1,4 +1,4 @@
 package UserVerification;
 
-public interface WalletAuthentication extends AuthenticationServices{
+public interface WalletAuthentication extends AuthenticationService {
 }
