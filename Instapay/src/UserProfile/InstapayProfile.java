@@ -30,13 +30,18 @@ public class InstapayProfile {
     public void setAccount(Account account) {
         this.account = account;
     }
-    public void addAccount(Account account){
-        BankAPI bankAPI = new FaisalAPI();
-        bankAPI.connect();//it should take an account
-        this.account = account;
-    }
+
+    // what is the benefit of it ?
+
+//    public void addAccount(Account account){
+//        BankAPI bankAPI = new FaisalAPI();
+//        bankAPI.connect();//it should take an account
+//        this.account = account;
+//    }
+
+    // it will remove the account (bank / wallet ) he has
+    // is it required ???
     public void removeAccount(Account account){
-        //call Bank API here
         this.account = null;
     }
 

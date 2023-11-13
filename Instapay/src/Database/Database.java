@@ -5,7 +5,7 @@ import UserProfile.User;
 import java.util.ArrayList;
 
 public class Database implements DatabaseAccessLayer{
-    private ArrayList<User> users;
+    private static ArrayList<User> users;
     public Database(){
         users = new ArrayList<>();
     }

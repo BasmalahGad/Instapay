@@ -1,4 +1,6 @@
 package UserVerification;
+import Database.Database;
+import Database.DatabaseAccessLayer;
 import UserInterface.InstapaySystem;
 import UserProfile.User;
 
@@ -7,7 +9,8 @@ public class LogIn {
         InstapaySystem.curUser = u;
     }
     public static boolean signIn(String username, String password) {
-        User user = InstapaySystem.databaseAccessLayer.searchUser(username, password);
+        DatabaseAccessLayer Db = new Database();
+        User user = Db.searchUser(username, password);
         if (user != null) {
             loadUser(user);
             return true;
@@ -15,13 +18,4 @@ public class LogIn {
             return false;
         }
     }
-//    public static boolean signIn(User user) {
-//        boolean foundUser = InstapaySystem.databaseAccessLayer.searchUser(user);
-//        if (foundUser) {
-//            loadUser(user);
-//            return true;
-//        } else {
-//            return false;
-//        }
-//    }
 }

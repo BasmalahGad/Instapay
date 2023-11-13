@@ -1,15 +1,9 @@
 package UserInterface;
-
-import Database.*;
 import UserProfile.*;
 import UserVerification.*;
-
-import java.util.Objects;
-import java.util.Scanner;
-
+import java.util.*;
 public class InstapaySystem {
-    public static DatabaseAccessLayer database = new Database();
-    public static User curUser = new User();
+    public static User curUser = null;
     public boolean signIn() {
         System.out.println("Please Enter Your Username:");
         Scanner scanner = new Scanner(System.in);
@@ -33,7 +27,9 @@ public class InstapaySystem {
         String password = scanner.nextLine();
         System.out.println("Bank or Wallet?");
         String service = scanner.nextLine();
-        User user = new User (name, mobile, email, username, password);
+        User user = new User (name, mobile, email);
+
+
 //        AuthenticationService authenticationService = null;
 //        if (Objects.equals(service, "Bank"))
 //            authenticationService = new FaisalBank();

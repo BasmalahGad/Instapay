@@ -5,16 +5,20 @@ public class User {
     String name;
     String mobile;
     String email;
-    String city;
-    char gender;
-    Date dob;
+
+    public User(String name, String mobile, String email) {
+        this.name = name;
+        this.mobile = mobile;
+        this.email = email;
+    }
+
     InstapayProfile instapayProfile = new InstapayProfile();
 
     public InstapayProfile getInstapayProfile() {
         return instapayProfile;
     }
 
-    public void setInstapayProfile(InstapayProfile instapayProfile) {
+    public void setInstapayProfile(InstapayProfile instapayProfile){
         this.instapayProfile = instapayProfile;
     }
 
@@ -40,29 +44,5 @@ public class User {
 
     public void setEmail(String email) {
         this.email = email;
-    }
-
-    public String getCity() {
-        return city;
-    }
-
-    public void setCity(String city) {
-        this.city = city;
-    }
-
-    public char getGender() {
-        return gender;
-    }
-
-    public void setGender(char gender) {
-        this.gender = gender;
-    }
-
-    public Date getDob() {
-        return dob;
-    }
-
-    public void setDob(Date dob) {
-        this.dob = dob;
     }
 }
