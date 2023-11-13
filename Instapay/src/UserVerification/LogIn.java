@@ -9,8 +9,8 @@ public class LogIn {
         InstapaySystem.curUser = u;
     }
     public static boolean signIn(String username, String password) {
-        DatabaseAccessLayer Db = new Database();
-        User user = Db.searchUser(username, password);
+        DatabaseAccessLayer database = new Database();
+        User user = database.searchUser(username, password);
         if (user != null) {
             loadUser(user);
             return true;

@@ -25,12 +25,12 @@ public class Database implements DatabaseAccessLayer{
     }
 
     @Override
-    public User contain(String username) {
+    public boolean contain(String username) {
         for (User user : users) {
             if (user.getInstapayProfile().getUsername() == username)
-                return user;
+                return true;
         }
-        return null;
+        return false;
     }
 
 
