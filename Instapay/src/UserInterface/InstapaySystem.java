@@ -4,60 +4,39 @@ import UserVerification.*;
 import java.util.*;
 public class InstapaySystem {
     public static User curUser = null;
-    public boolean signIn() {
-        //This should be in GUI
-        System.out.println("Please Enter Your Username:");
-        Scanner scanner = new Scanner(System.in);
-        String username = scanner.nextLine();
-        System.out.println("Please Enter Your Password:");
-        String password = scanner.nextLine();
-
-        return LogIn.signIn(username, password);
+    public boolean signIn(String username, String password) {
+        return AuthenticationService.signIn(username, password);
     }
-    public boolean signUp() {
-        //This should be in GUI
-        Scanner scanner = new Scanner(System.in);
-        System.out.println("Please Enter Your Name:");
-        String name = scanner.nextLine();
-        System.out.println("Please Enter Your Mobile:");
-        String mobile = scanner.nextLine();
-        System.out.println("Please Enter Your Email:");
-        String email = scanner.nextLine();
-        System.out.println("Please Enter Your Username:");
-        String username = scanner.nextLine();
-        System.out.println("Please Enter Your Password:");
-        String password = scanner.nextLine();
-        System.out.println("Bank or Wallet?");
-        String service = scanner.nextLine();
-        User user = new User (name, mobile, email);
-
-        OTP otp = new OTP();
-        System.out.println(otp.generateOTP());
-        System.out.println("Enter the OTP sent:");
-        String inOtp = scanner.nextLine();
-        if (otp.verifyOTP(inOtp)) {
-            Registration registration = null;
-            AuthenticationService authenticationService = null;
-            return registration.signUp(user, authenticationService);
-        } else {
-            // how will we handle the wrong otp? start the process over? or give the user another chance?
-            // what will be returned here to distinguish between the false returned from the otp and the one from signup
-            System.out.println("Wrong OTP");
+    public boolean signUpBank(String name, String mobile, String email, String username, String password,
+                              String creditCardNumber, String creditCardPassword, String bankName) {
+        Account account = new BankAccount(creditCardNumber, creditCardPassword);
+        User user = new User(name, mobile, email, username, password, account);
+        ProviderAuthentication providerAuthentication = null;
+        if (Objects.equals(bankName, "Faisal")) {
+            providerAuthentication = new FaisalAuthentication();
+            return Registration.signUp(user, providerAuthentication);
+        } else if (Objects.equals(bankName, "CIB")) {
+            // dummy till we have a cib class
             return false;
+        } else {
+            // dummy as well
+            return true;
         }
-
-
-//        AuthenticationService authenticationService = null;
-//        if (Objects.equals(service, "Bank"))
-//            authenticationService = new FaisalBank();
-//        else
-//            authenticationService = new WeWallet();
-
-//        Registration registration = null;
-//        AuthenticationService authenticationService = null;
-//        if (Objects.equals(service, "Bank"))
-//            registration = new BankRegistration();
-//        else
-//            registration = new WalletRegistration();
+    }
+    public boolean signUpWallet(String name, String mobile, String email, String username, String password,
+                                String walletNumber, String walletPassword, String walletProvider) {
+        Account account = new WalletAccount(walletNumber, walletPassword);
+        User user = new User(name, mobile, email, username, password, account);
+        ProviderAuthentication providerAuthentication = null;
+        if (Objects.equals(walletProvider, "Vodafone")) {
+            providerAuthentication = new FaisalAuthentication();
+            return Registration.signUp(user, providerAuthentication);
+        } else if (Objects.equals(walletProvider, "Orange")) {
+            // dummy till we have an orange class
+            return false;
+        } else {
+            // dummy as well
+            return true;
+        }
     }
 }
