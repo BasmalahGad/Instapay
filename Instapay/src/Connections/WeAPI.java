@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.Objects;
 
 
-public class WeAPI implements  API{
+public class WeAPI implements WalletAPI{
     public static ArrayList<WalletAccount> accounts;
     public WeAPI()
     {
@@ -16,14 +16,14 @@ public class WeAPI implements  API{
     }
 
     @Override
-    public boolean search(String ID) {
+    public boolean verifyMobile(String ID) {
         for (WalletAccount account : accounts) {
             if (Objects.equals(account.getPhoneNumber(), ID))
                 return true;
         }
         return false;    }
     @Override
-    public double read(String ID) {
+    public double getBalance(String ID) {
         for (WalletAccount account : accounts) {
             if (Objects.equals(account.getPhoneNumber(), ID))
                 return account.getBalance();
@@ -32,7 +32,7 @@ public class WeAPI implements  API{
     }
 
     @Override
-    public void write(String ID, double amount) {
+    public void deposit(String ID, double amount) {
         for (WalletAccount account : accounts) {
             if (Objects.equals(account.getPhoneNumber(), ID))
             {

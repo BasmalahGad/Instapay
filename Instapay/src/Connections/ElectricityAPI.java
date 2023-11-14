@@ -1,12 +1,11 @@
 package Connections;
 
 import Transactions.ElectricityBill;
-import Transactions.GasBill;
 
 import java.util.ArrayList;
 import java.util.Objects;
 
-public class ElectricityAPI implements API{
+public class ElectricityAPI implements BillAPI{
 
     public static ArrayList<ElectricityBill> bills;
     public ElectricityAPI()
@@ -16,31 +15,31 @@ public class ElectricityAPI implements API{
     }
 
     @Override
-    public boolean search(String ID) {
+    public boolean searchBill(String billNum) {
         for (ElectricityBill bill: bills)
         {
-            if(Objects.equals(bill.getID(), ID))
+            if(Objects.equals(bill.getID(), billNum))
                 return true;
         }
         return false;
     }
 
     @Override
-    public double read(String ID) {
+    public double getAmount(String billNum) {
         for (ElectricityBill bill: bills)
         {
-            if(Objects.equals(bill.getID(), ID))
+            if(Objects.equals(bill.getID(), billNum))
                 return bill.getAmount();
         }
         return 0;
     }
 
     @Override
-    public void write(String ID, double amount) {
+    public void pay(String billNum) {
         for (ElectricityBill bill: bills)
         {
-            if(Objects.equals(bill.getID(), ID))
-                bill.setAmount(amount);
+            if(Objects.equals(bill.getID(), billNum))
+                bill.setAmount(0);
         }
     }
     private void addFakeBills()

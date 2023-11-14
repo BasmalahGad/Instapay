@@ -5,7 +5,7 @@ import Transactions.WaterBill;
 import java.util.ArrayList;
 import java.util.Objects;
 
-public class WaterAPI implements API{
+public class WaterAPI implements BillAPI{
 
     public static ArrayList<WaterBill> bills;
     public WaterAPI()
@@ -15,17 +15,17 @@ public class WaterAPI implements API{
     }
 
     @Override
-    public boolean search(String ID) {
+    public boolean searchBill(String billNum) {
         for (WaterBill bill: bills)
         {
-            if(Objects.equals(bill.getID(), ID))
+            if(Objects.equals(bill.getID(), billNum))
                 return true;
         }
         return false;
     }
 
     @Override
-    public double read(String ID) {
+    public double getAmount(String billNum) {
         for (WaterBill bill: bills)
         {
             if(Objects.equals(bill.getID(), ID))
@@ -35,11 +35,11 @@ public class WaterAPI implements API{
     }
 
     @Override
-    public void write(String ID, double amount) {
+    public void pay(String billNum) {
         for (WaterBill bill: bills)
         {
-            if(Objects.equals(bill.getID(), ID))
-                bill.setAmount(amount);
+            if(Objects.equals(bill.getID(), billNum))
+                bill.setAmount(0);
         }
     }
     private void addFakeBills()

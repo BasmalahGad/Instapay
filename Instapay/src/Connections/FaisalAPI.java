@@ -5,7 +5,7 @@ import UserProfile.BankAccount;
 import java.util.ArrayList;
 import java.util.Objects;
 
-public class FaisalAPI implements API{
+public class FaisalAPI implements BankAPI{
     public ArrayList<BankAccount> accounts;
     public FaisalAPI()
     {
@@ -13,7 +13,7 @@ public class FaisalAPI implements API{
         addFakeAccounts();
     }
     @Override
-    public boolean search(String ID) {
+    public boolean verifyCardNum(String ID) {
         for (BankAccount account : accounts) {
             if (Objects.equals(account.getCreditCardNumber(), ID))
                 return true;
@@ -21,7 +21,7 @@ public class FaisalAPI implements API{
         return false;
     }
     @Override
-    public double read(String ID) {
+    public double getBalance(String ID) {
         for (BankAccount account : accounts) {
             if (Objects.equals(account.getCreditCardNumber(), ID))
                 return account.getBalance();
@@ -30,7 +30,7 @@ public class FaisalAPI implements API{
     }
 
     @Override
-    public void write(String ID, double amount) {
+    public void deposit(String ID, double amount) {
         for (BankAccount account : accounts) {
             if (Objects.equals(account.getCreditCardNumber(), ID))
             {
