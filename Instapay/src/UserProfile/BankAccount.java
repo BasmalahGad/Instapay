@@ -3,6 +3,7 @@ package UserProfile;
 public class BankAccount extends Account{
     String creditCardNumber;
     String creditCardPassword;
+    BankAccount bankAccount;
 
     public BankAccount getBankAccount() {
         return bankAccount;
@@ -12,7 +13,6 @@ public class BankAccount extends Account{
         this.bankAccount = bankAccount;
     }
 
-    BankAccount bankAccount;
     public String getCreditCardNumber() {
         return creditCardNumber;
     }

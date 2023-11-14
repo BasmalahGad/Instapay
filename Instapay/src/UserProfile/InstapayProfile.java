@@ -1,8 +1,5 @@
 package UserProfile;
 
-import Connections.BankAPI;
-import Connections.FaisalAPI;
-
 public class InstapayProfile {
     private String userName;
     private String password;
@@ -30,20 +27,4 @@ public class InstapayProfile {
     public void setAccount(Account account) {
         this.account = account;
     }
-
-    // what is the benefit of it ?
-
-//    public void addAccount(Account account){
-//        BankAPI bankAPI = new FaisalAPI();
-//        bankAPI.connect();//it should take an account
-//        this.account = account;
-//    }
-
-    // it will remove the account (bank / wallet ) he has
-    // is it required ???
-    public void removeAccount(Account account){
-        this.account = null;
-    }
-
-
 }
