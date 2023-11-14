@@ -1,14 +1,13 @@
 package UserVerification;
 import Database.Database;
 import Database.DatabaseAccessLayer;
-import UserInterface.InstapaySystem;
 import UserProfile.User;
 
 public class Registration {
-    public boolean signUp(User user, AuthenticationService authenticationService) {
+    public static boolean signUp(User user, ProviderAuthentication providerAuthentication) {
         DatabaseAccessLayer database = new Database();
-        String username = user.getInstapayProfile().getUserName();
-        if (authenticationService.authenticate(user) && (database.contain(username) != null)) {
+        String username = user.getUsername();
+        if (providerAuthentication.authenticate(user) && (database.contain(username) != null)) {
             //to verify strong username and password
             //verify(user);
             database.addNewUser(user);

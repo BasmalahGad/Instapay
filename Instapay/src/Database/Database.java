@@ -3,7 +3,6 @@ package Database;
 import UserProfile.User;
 
 import java.util.ArrayList;
-import java.util.Objects;
 
 public class Database implements DatabaseAccessLayer{
     private static ArrayList<User> users;
@@ -19,19 +18,19 @@ public class Database implements DatabaseAccessLayer{
     @Override
     public User searchUser(String username, String password) {
         for (User user : users) {
-            if (user.getInstapayProfile().getUserName() == username && user.getInstapayProfile().getPassword() == password)
+            if (user.getUsername() == username && user.getPassword() == password)
                 return user;
         }
         return null;
     }
 
     @Override
-    public User contain(String username) {
+    public boolean contain(String username) {
         for (User user : users) {
-            if (Objects.equals(user.getInstapayProfile().getUserName(), username))
-                return user;
+            if (user.getUsername() == username)
+                return true;
         }
-        return null;
+        return false;
     }
 
 
@@ -40,21 +39,21 @@ public class Database implements DatabaseAccessLayer{
         if(users.contains(user) )
         {
             int i = users.indexOf(user);
-            users.get(i).getInstapayProfile().setAccount(null);
+            users.get(i).setAccount(null);
             return true;
         }
         return false;
     }
 
 
-    @Override
-    public boolean removeInstapayProfile(User user) {
-        if(users.contains(user) )
-        {
-            int i = users.indexOf(user);
-            users.get(i).setInstapayProfile(null);
-            return true;
-        }
-        return false;
-    }
+//    @Override
+//    public boolean removeInstapayProfile(User user) {
+//        if(users.contains(user) )
+//        {
+//            int i = users.indexOf(user);
+//            users.get(i).setInstapayProfile(null);
+//            return true;
+//        }
+//        return false;
+//    }
 }

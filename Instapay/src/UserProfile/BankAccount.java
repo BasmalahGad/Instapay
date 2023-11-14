@@ -5,6 +5,10 @@ public class BankAccount extends Account{
     String creditCardPassword;
     BankAccount bankAccount;
 
+    public BankAccount(String creditCardNumber, String creditCardPassword) {
+        super();
+    }
+
     public BankAccount getBankAccount() {
         return bankAccount;
     }
