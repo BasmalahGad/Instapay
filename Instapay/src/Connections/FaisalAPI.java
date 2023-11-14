@@ -1,21 +1,45 @@
 package Connections;
 
-import UserProfile.Account;
 import UserProfile.BankAccount;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
-public class FaisalAPI implements BankAPI{
-    private ArrayList<BankAccount> accounts;
+public class FaisalAPI implements API{
+    public ArrayList<BankAccount> accounts;
     public FaisalAPI()
     {
         accounts = new ArrayList<>();
         addFakeAccounts();
     }
     @Override
-    public void connect() {
-
+    public boolean search(String ID) {
+        for (BankAccount account : accounts) {
+            if (Objects.equals(account.getCreditCardNumber(), ID))
+                return true;
+        }
+        return false;
     }
+    @Override
+    public double read(String ID) {
+        for (BankAccount account : accounts) {
+            if (Objects.equals(account.getCreditCardNumber(), ID))
+                return account.getBalance();
+        }
+        return 0;
+    }
+
+    @Override
+    public void write(String ID, double amount) {
+        for (BankAccount account : accounts) {
+            if (Objects.equals(account.getCreditCardNumber(), ID))
+            {
+                account.setBalance(amount);
+                return;
+            }
+        }
+    }
+
     private void addFakeAccounts()
     {
         BankAccount bankAccount = new BankAccount();
@@ -33,10 +57,4 @@ public class FaisalAPI implements BankAPI{
         accounts.add(bankAccount);
     }
 
-    /**
-     * @return accounts
-     */
-    public ArrayList<BankAccount> getAccounts() {
-        return accounts;
-    }
 }
