@@ -3,6 +3,7 @@ package Database;
 import UserProfile.User;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 public class Database implements DatabaseAccessLayer{
     private static ArrayList<User> users;
@@ -25,12 +26,12 @@ public class Database implements DatabaseAccessLayer{
     }
 
     @Override
-    public boolean contain(String username) {
+    public User contain(String username) {
         for (User user : users) {
-            if (user.getInstapayProfile().getUserName() == username)
-                return true;
+            if (Objects.equals(user.getInstapayProfile().getUserName(), username))
+                return user;
         }
-        return false;
+        return null;
     }
 
 

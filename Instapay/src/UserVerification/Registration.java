@@ -8,7 +8,7 @@ public class Registration {
     public boolean signUp(User user, AuthenticationService authenticationService) {
         DatabaseAccessLayer database = new Database();
         String username = user.getInstapayProfile().getUserName();
-        if (authenticationService.authenticate(user) && !database.contain(username)) {
+        if (authenticationService.authenticate(user) && (database.contain(username) != null)) {
             //to verify strong username and password
             //verify(user);
             database.addNewUser(user);
