@@ -6,9 +6,9 @@ import java.util.ArrayList;
 import java.util.Objects;
 
 
-public class OrangeAPI implements WalletAPI{
+public class VodafoneAPI implements WalletAPI{
     public static ArrayList<WalletAccount> accounts;
-    public OrangeAPI()
+    public VodafoneAPI()
     {
         accounts = new ArrayList<>();
         addFakeAccounts();
