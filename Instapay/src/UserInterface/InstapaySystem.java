@@ -1,5 +1,5 @@
 package UserInterface;
-import Connections.FaisalAPI;
+import Connections.*;
 import Database.Database;
 import Transactions.*;
 import UserProfile.*;
@@ -16,7 +16,7 @@ public class InstapaySystem {
         Account account = new BankAccount(creditCardNumber, creditCardPassword);
         User user = new User(name, mobile, email, username, password, account);
         ProviderAuthentication providerAuthentication = null;
-        if (Objects.equals(bankName, "Faisal")) {
+        if (Objects.equals(bankName, "FAISAL")) {
             providerAuthentication = new FaisalAuthentication();
             return Registration.signUp(user, providerAuthentication);
         } else if (Objects.equals(bankName, "CIB")) {
@@ -32,10 +32,10 @@ public class InstapaySystem {
         Account account = new WalletAccount(walletNumber, walletPassword);
         User user = new User(name, mobile, email, username, password, account);
         ProviderAuthentication providerAuthentication = null;
-        if (Objects.equals(walletProvider, "Vodafone")) {
+        if (Objects.equals(walletProvider, "VODAFONE")) {
             providerAuthentication = new FaisalAuthentication();
             return Registration.signUp(user, providerAuthentication);
-        } else if (Objects.equals(walletProvider, "Orange")) {
+        } else if (Objects.equals(walletProvider, "ORANGE")) {
             // dummy till we have an orange class
             return false;
         } else {
@@ -62,16 +62,16 @@ public class InstapaySystem {
 
         if(InstapaySystem.curUser.getAccount() instanceof BankAccount){
             billPaymentMethod = new BankAccountBillPaymentMethod();
-            if (((BankAccount)InstapaySystem.curUser.getAccount()).getBankName().equals("Faisal")){
+            if (((BankAccount)InstapaySystem.curUser.getAccount()).getBankName().equals("FAISAL")){
                 ((BankAccountBillPaymentMethod)billPaymentMethod).setBankAPI(new FaisalAPI());
             }else if (((BankAccount)InstapaySystem.curUser.getAccount()).getBankName().equals("CIB")){
                 ((BankAccountBillPaymentMethod)billPaymentMethod).setBankAPI(new CIBAPI());
             }
         }else if (InstapaySystem.curUser.getAccount() instanceof WalletAccount){
             billPaymentMethod = new WalletBillPaymentMethod();
-            if(((WalletAccount)InstapaySystem.curUser.getAccount()).getWalletProvider().equals("Vodafone")){
+            if(((WalletAccount)InstapaySystem.curUser.getAccount()).getWalletProvider().equals("VODAFONE")){
                 ((WalletBillPaymentMethod)billPaymentMethod).setWalletAPI(new VodafoneAPI());
-            }else if(((WalletAccount)InstapaySystem.curUser.getAccount()).getWalletProvider().equals("Orange")){
+            }else if(((WalletAccount)InstapaySystem.curUser.getAccount()).getWalletProvider().equals("ORANGE")){
                 ((WalletBillPaymentMethod)billPaymentMethod).setWalletAPI(new OrangeAPI());
             }
         }
@@ -88,7 +88,7 @@ public class InstapaySystem {
         TransactionMethod transactionMethod = null;
         if(InstapaySystem.curUser.getAccount() instanceof BankAccount){
             transactionMethod = new BankTransactionMethod();
-            if (((BankAccount)InstapaySystem.curUser.getAccount()).getBankName().equals("Faisal")){
+            if (((BankAccount)InstapaySystem.curUser.getAccount()).getBankName().equals("FAISAL")){
                 ((BankTransactionMethod)transactionMethod).setBankAPI(new FaisalAPI());
             }else if (((BankAccount)InstapaySystem.curUser.getAccount()).getBankName().equals("CIB")){
                 ((BankTransactionMethod)transactionMethod).setBankAPI(new CIBAPI());
@@ -96,16 +96,16 @@ public class InstapaySystem {
 
         }else if (InstapaySystem.curUser.getAccount() instanceof WalletAccount){
             transactionMethod = new WalletTransactionMethod();
-            if(((WalletAccount)InstapaySystem.curUser.getAccount()).getWalletProvider().equals("Vodafone")){
+            if(((WalletAccount)InstapaySystem.curUser.getAccount()).getWalletProvider().equals("VODAFONE")){
                 ((WalletTransactionMethod)transactionMethod).setWalletAPI(new VodafoneAPI());
-            }else if(((WalletAccount)InstapaySystem.curUser.getAccount()).getWalletProvider().equals("Orange")){
+            }else if(((WalletAccount)InstapaySystem.curUser.getAccount()).getWalletProvider().equals("ORANGE")){
                 ((WalletTransactionMethod)transactionMethod).setWalletAPI(new OrangeAPI());
             }
         }
         try{
-            if(walletProvider.equals("Vodafone")){
+            if(walletProvider.equals("VODAFONE")){
                 transactionMethod.createWalletTransaction(new VodafoneAPI(), mobile, amount);
-            }else if (walletProvider.equals("Orange")){
+            }else if (walletProvider.equals("ORANGE")){
                 transactionMethod.createWalletTransaction(new OrangeAPI(), mobile, amount);
             }
         }catch (Exception e){
@@ -118,7 +118,7 @@ public class InstapaySystem {
         TransactionMethod transactionMethod = null;
         if(InstapaySystem.curUser.getAccount() instanceof BankAccount){
             transactionMethod = new BankTransactionMethod();
-            if (((BankAccount)InstapaySystem.curUser.getAccount()).getBankName().equals("Faisal")){
+            if (((BankAccount)InstapaySystem.curUser.getAccount()).getBankName().equals("FAISAL")){
                 ((BankTransactionMethod)transactionMethod).setBankAPI(new FaisalAPI());
             }else if (((BankAccount)InstapaySystem.curUser.getAccount()).getBankName().equals("CIB")){
                 ((BankTransactionMethod)transactionMethod).setBankAPI(new CIBAPI());
@@ -127,7 +127,7 @@ public class InstapaySystem {
         try{
             if(bankName.equals("CIB")){
                 ((BankTransactionMethod)transactionMethod).createBankAccountTransaction(new CIBAPI(), cardNum, amount);
-            }else if (bankName.equals("Faisal")){
+            }else if (bankName.equals("FAISAL")){
                 ((BankTransactionMethod)transactionMethod).createBankAccountTransaction(new FaisalAPI(), cardNum, amount);
             }
         }catch (Exception e){
@@ -138,6 +138,6 @@ public class InstapaySystem {
 
     public static User loadUser(String username){
         Database database = new Database();
-        return database.contain(username);
+        return (database.contain(username));
     }
 }

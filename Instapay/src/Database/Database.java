@@ -25,12 +25,12 @@ public class Database implements DatabaseAccessLayer{
     }
 
     @Override
-    public boolean contain(String username) {
+    public User contain(String username) {
         for (User user : users) {
             if (user.getUsername() == username)
-                return true;
+                return user;
         }
-        return false;
+        return null;
     }
 
 

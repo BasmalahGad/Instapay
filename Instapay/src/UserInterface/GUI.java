@@ -3,6 +3,8 @@ package UserInterface;
 import Database.Database;
 import Transactions.*;
 import UserProfile.BankAccount;
+import UserProfile.BankName;
+import UserProfile.WalletAccount;
 import UserVerification.OTP;
 
 import java.util.Scanner;
@@ -143,8 +145,30 @@ public class GUI {
                         String username = scanner.nextLine();
                         System.out.println("Please Enter The Amount You Want to Transfer: ");
                         amount = scanner.nextDouble();
-
-
+                        boolean transferred = true;
+                        if (InstapaySystem.loadUser(username).getAccount() instanceof BankAccount && InstapaySystem.curUser.getAccount() instanceof BankAccount){
+                            String bankName = null;
+                            if(((BankAccount) InstapaySystem.loadUser(username).getAccount()).getBankName().equals("FAISAL")){
+                                bankName = "FAISAL";
+                            }else if (((BankAccount) InstapaySystem.loadUser(username).getAccount()).getBankName().equals("CIB")){
+                                bankName = "CIB";
+                            }
+                            transferred = InstapaySystem.sendMoneyBank(bankName, username, amount);
+                        }else if (InstapaySystem.loadUser(username).getAccount() instanceof WalletAccount) {
+                            String walletProvider = null;
+                            if (((WalletAccount) InstapaySystem.curUser.getAccount()).getWalletProvider().equals("VODAFONE")) {
+                                walletProvider = "VODAFONE";
+                            } else if (((WalletAccount) InstapaySystem.curUser.getAccount()).getWalletProvider().equals("ORANGE")) {
+                                walletProvider = "ORANGE";
+                            }
+                            transferred = InstapaySystem.sendMoneyMobile(walletProvider, username, amount);
+                        }else {
+                            System.out.println("You Can Not Transfer to Bank Account");
+                            return;
+                        }
+                        if(!transferred){
+                            System.out.println("You Do not Have Enough Money to Transfer");
+                        }
                         break;
                     } case "3":{
                         System.out.println("Please Choose a Bank Name:\n1. Faisal Bank\n2. CIB");
@@ -158,9 +182,11 @@ public class GUI {
                             System.out.println("You Do not Have Enough Money to Transfer");
                         }
                         break;
+                    }default: {
+                        System.out.println("Invalid Option!");
+                        break;
                     }
                 }
-                sendMoney(transaction, id);
                 break;
             }
         }
