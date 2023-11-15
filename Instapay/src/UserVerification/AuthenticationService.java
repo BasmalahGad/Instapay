@@ -6,6 +6,7 @@ import UserProfile.User;
 
 public class AuthenticationService {
     private static void loadUser(User u) {
+
         InstapaySystem.curUser = u;
     }
     public static boolean signIn(String username, String password) {

@@ -16,10 +16,12 @@ public class InstapaySystem {
         Account account = new BankAccount(creditCardNumber, creditCardPassword);
         User user = new User(name, mobile, email, username, password, account);
         ProviderAuthentication providerAuthentication = null;
-        if (Objects.equals(bankName, "Faisal")) {
+        if (Objects.equals(bankName, "FAISAL")) {
             providerAuthentication = new FaisalAuthentication();
+            ((BankAccount)user.getAccount()).setBankName(BankName.FAISAL);
         } else if (Objects.equals(bankName, "CIB")) {
             providerAuthentication = new CIBAuthentication();
+            ((BankAccount)user.getAccount()).setBankName(BankName.CIB);
         }
         else{
             return false;
@@ -45,19 +47,6 @@ public class InstapaySystem {
 
     public static boolean payBill(String billNum, String billType){
         BillPaymentMethod billPaymentMethod = null;
-        switch (billType){
-            case "1":{
-                billPaymentMethod.setBillService(new GasBillService(billNum));
-                break;
-            }case "2":{
-                billPaymentMethod.setBillService(new WaterBillService(billNum));
-                break;
-            }case "3":{
-                billPaymentMethod.setBillService(new ElectricityBillService(billNum));
-                break;
-            }
-        }
-
         if(InstapaySystem.curUser.getAccount() instanceof BankAccount){
             billPaymentMethod = new BankAccountBillPaymentMethod();
             if (((BankAccount)InstapaySystem.curUser.getAccount()).getBankName().equals("FAISAL")){
@@ -73,7 +62,18 @@ public class InstapaySystem {
                 ((WalletBillPaymentMethod)billPaymentMethod).setWalletAPI(new OrangeAPI());
             }
         }
-
+        switch (billType){
+            case "1":{
+                billPaymentMethod.setBillService(new GasBillService(billNum));
+                break;
+            }case "2":{
+                billPaymentMethod.setBillService(new WaterBillService(billNum));
+                break;
+            }case "3":{
+                billPaymentMethod.setBillService(new ElectricityBillService(billNum));
+                break;
+            }
+        }
         try{
             billPaymentMethod.payBill();
         }catch (Exception e){

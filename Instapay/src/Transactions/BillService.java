@@ -34,7 +34,7 @@ public abstract class BillService {
         this.billNum = billNum;
     }
     public void deduct() {
-        bill.setAmount(0);
+        billAPI.pay(billNum);
     }
     public abstract void create() throws Exception;
 

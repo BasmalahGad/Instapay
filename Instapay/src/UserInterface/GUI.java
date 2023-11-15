@@ -14,10 +14,10 @@ public class GUI {
     public void run() {
         System.out.println("Welcome to our Instapay Application!");
         System.out.println("Choose the number of operation you want to do:");
-        System.out.println("1. Sign Up\n2.Sign In\n");
-        int option = scanner.nextInt();
+        System.out.println("1. Sign Up\n2. Sign In\n");
+        String option = scanner.nextLine();
         switch (option) {
-            case 1: {
+            case "1": {
                 System.out.println("Please Enter Your Name:");
                 String name = scanner.nextLine();
                 System.out.println("Please Enter Your Mobile:");
@@ -40,24 +40,26 @@ public class GUI {
                 System.out.println("Please Enter Your Password:");
                 String password = scanner.nextLine();
                 System.out.println("Register Using:\n1. Bank Account\n2. Wallet Number");
-                option = scanner.nextInt();
-                switch (option) {
-                    case 1: {
+                String option2 = scanner.nextLine();
+                switch (option2) {
+                    case "1": {
                         System.out.println("Please Choose a Bank Name:\n1. Faisal Bank\n2. CIB");
                         String bankName = scanner.nextLine();
                         System.out.println("Please Enter Your Credit Card Number:");
                         String creditCardNumber = scanner.nextLine();
                         System.out.println("Please Enter Your Credit Card Password:");
                         String creditCardPassword = scanner.nextLine();
-
+                        bankName = "FAISAL";
                         boolean registered = InstapaySystem.signUpBank(name, mobile, email, username, password, creditCardNumber, creditCardPassword, bankName);
-                        if (registered)
+                        if (registered) {
                             System.out.println("Successful Registration!");
-                        else
+                            InstapaySystem.signIn(username , password);
+                            loggedInUserOptions();
+                        }else
                             System.out.println("Unable to Register!");
                         break;
                     }
-                    case 2: {
+                    case "2": {
                         System.out.println("Please Choose a Wallet Provider:\n1. Orange\n2. Vodafone");
                         String walletProvider = scanner.nextLine();
                         System.out.println("Please Enter Your Wallet Number:");
@@ -65,9 +67,10 @@ public class GUI {
                         System.out.println("Please Enter Your Wallet Password:");
                         String walletPassword = scanner.nextLine();
                         boolean registered = InstapaySystem.signUpWallet(name, mobile, email, username, password, walletNumber, walletPassword, walletProvider);
-                        if (registered)
+                        if (registered) {
                             System.out.println("Successful Registration!");
-                        else
+                            loggedInUserOptions();
+                        }else
                             System.out.println("Unable to Register!");
                         break;
                     }
@@ -78,7 +81,7 @@ public class GUI {
                 }
                 break;
             }
-            case 2: {
+            case "2": {
                 System.out.println("Please Enter Your Username:");
                 String username = scanner.nextLine();
                 System.out.println("Please Enter Your Password:");

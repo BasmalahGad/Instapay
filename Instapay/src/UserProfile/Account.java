@@ -1,12 +1,13 @@
 package UserProfile;
 
 public abstract class Account {
-    private double balance;
-    public double getBalance() {
-        return balance;
+    private String accountPassword;
+
+    public String getAccountPassword() {
+        return accountPassword;
     }
 
-    public void setBalance(double balance) {
-        this.balance = balance;
+    public void setAccountPassword(String accountPassword) {
+        this.accountPassword = accountPassword;
     }
 }

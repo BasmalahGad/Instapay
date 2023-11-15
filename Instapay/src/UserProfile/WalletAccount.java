@@ -2,20 +2,19 @@ package UserProfile;
 
 public class WalletAccount extends Account{
     WalletProvider walletProvider;
-    String PhoneNumber;
+    String phoneNumber;
 
     public String getPhoneNumber() {
-        return PhoneNumber;
+        return phoneNumber;
     }
 
     public void setPhoneNumber(String phoneNumber) {
-        PhoneNumber = phoneNumber;
+        phoneNumber = phoneNumber;
     }
 
-
-
     public WalletAccount(String walletNumber, String walletPassword) {
-        super();
+        this.phoneNumber = walletNumber;
+        super.setAccountPassword(walletPassword);
     }
 
     public WalletProvider getWalletProvider() {
