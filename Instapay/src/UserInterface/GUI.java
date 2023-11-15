@@ -13,11 +13,11 @@ import java.util.Scanner;
 public class GUI {
     private Scanner scanner = new Scanner(System.in);
     public void run() {
-        System.out.println("Welcome to our Instapay Application:)");
+        System.out.println("Welcome to our Instapay Application :)");
         boolean exit = false;
         while (!exit){
             System.out.println("Choose the number of operation you want to do:");
-            System.out.println("1. Sign Up\n2. Sign In\n3. exit");
+            System.out.println("1. Sign Up\n2. Sign In\n3. Exit");
             String option = scanner.nextLine();
             switch (option) {
                 case "1": {
@@ -55,16 +55,17 @@ public class GUI {
 
                     System.out.println("Please Enter Your Username:");
                     String username = scanner.nextLine();
-                    String passwordRegex = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)[a-zA-Z\\d]{8,}$";
+                    String passwordRegex = "^(?=.*\\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[\\-!@#$%^&*_=+/.?<>]).{8,20}$";
                     System.out.println("Please Enter Your Password:");
                     String password = scanner.nextLine();
                     while(!password.matches(passwordRegex)){
-                        System.out.println("Your password should have :");
-                        System.out.println("At least one lowercase letter.\n" +
-                                "At least one uppercase letter.\n" +
-                                "At least one digit.\n" +
-                                "Minimum length of 8 characters.");
-                        System.out.println("Please Enter a valid Password:");
+                        System.out.println("Your password should have:");
+                        System.out.println("1. At least one lowercase letter.\n" +
+                                "2. At least one uppercase letter.\n" +
+                                "3. At least one digit.\n" +
+                                "4. Minimum length of 8 characters." +
+                                "5. Maximum length of 20 characters.");
+                        System.out.println("Please Enter a Valid Password:");
                         password = scanner.nextLine();
                     }
 
@@ -80,7 +81,7 @@ public class GUI {
                             System.out.println("Please Choose a Bank Name:\n1. Faisal Bank\n2. CIB");
                             String bankName = scanner.nextLine();
                             while(!bankName.equals("1") && !bankName.equals( "2")){
-                                System.out.println("Enter a valid option :");
+                                System.out.println("Enter a valid option:");
                                 System.out.println("Please Choose a Bank Name:\n1. Faisal Bank\n2. CIB");
                                 bankName = scanner.nextLine();
                             }
@@ -97,8 +98,9 @@ public class GUI {
                                     InstapaySystem.signIn(username , password);
                                     loggedInUserOptions();
                                     flag = true;
-                                }else
-                                    System.out.println("invalid credentials!");
+                                } else {
+                                    System.out.println("Invalid Credentials!");
+                                }
                             }
                             break;
                         }
@@ -106,7 +108,7 @@ public class GUI {
                             System.out.println("Please Choose a Wallet Provider:\n1. Orange\n2. Vodafone");
                             String walletProvider = scanner.nextLine();
                             while(!walletProvider.equals("1") && !walletProvider.equals( "2")){
-                                System.out.println("Enter a valid option :");
+                                System.out.println("Enter a valid option:");
                                 System.out.println("Please Choose a Wallet Provider:\n1. Orange\n2. Vodafone");
                                 walletProvider = scanner.nextLine();
                             }
@@ -121,8 +123,9 @@ public class GUI {
                                     System.out.println("Successful Registration!");
                                     loggedInUserOptions();
                                     flag = true;
-                                }else
-                                    System.out.println("invalid credentials!");
+                                } else {
+                                    System.out.println("Invalid Credentials!");
+                                }
                             }
                             break;
                         }
@@ -146,7 +149,7 @@ public class GUI {
                             loggedInUserOptions();
                             flag = true;
                         } else {
-                            System.out.println("invalid credentials!");
+                            System.out.println("Invalid Credentials!");
                         }
                     }
                     break;
@@ -168,7 +171,7 @@ public class GUI {
     private void loggedInUserOptions(){
         boolean exit = false;
         while (!exit){
-            System.out.println("Please Choose The Service You Want: ");
+            System.out.println("Please Choose The Service You Want:");
             System.out.println("1. Pay Bill\n2. Transfer Money");
             String service = scanner.nextLine();
             while(!service.equals("1") && !service.equals("2")){
@@ -182,7 +185,7 @@ public class GUI {
                     System.out.println("1. Gas Bill\n2. Water Bill\n3. Electricity Bill");
                     String billType = scanner.nextLine();
                     while(!billType.equals("1") && !billType.equals("2") && !billType.equals("3")){
-                        System.out.println("Enter a valid option :");
+                        System.out.println("Enter a valid option:");
                         System.out.println("1. Gas Bill\n2. Water Bill\n3. Electricity Bill");
                         billType = scanner.nextLine();
                     }
@@ -207,7 +210,7 @@ public class GUI {
                         transOption = scanner.nextLine();
                     }
                     while(bank && !transOption.equals("1") && !transOption.equals( "2")  && !transOption.equals("3")){
-                        System.out.println("Enter a valid option :");
+                        System.out.println("Enter a valid option:");
                         System.out.println("1. Transfer to Wallet\n2. Transfer to Instapay Account");
                         System.out.println("3. Transfer to Bank Account");
                         transOption = scanner.nextLine();
@@ -222,22 +225,22 @@ public class GUI {
                                 System.out.println("Please Choose a Wallet Provider:\n1. Orange\n2. Vodafone");
                                 walletProvider = scanner.nextLine();
                             }
-                            System.out.println("Please Enter Receiver Mobile Number: ");
+                            System.out.println("Please Enter Receiver Mobile Number:");
                             String mobile = scanner.nextLine();
-                            System.out.println("Please Enter The Amount You Want to Transfer: ");
+                            System.out.println("Please Enter The Amount You Want to Transfer:");
                             amount = scanner.nextDouble();
                             boolean transferred = InstapaySystem.sendMoneyMobile(walletProvider, mobile, amount);
                             if(!transferred){
-                                System.out.println("You Do not Have Enough Money to Transfer");
+                                System.out.println("You Do not Have Enough Money to Transfer!");
                                 continue;
                             }else{
                                 System.out.println("Amount transferred successfully.");
                             }
                             break;
                         }case "2": {
-                            System.out.println("Please Enter Receiver Username: ");
+                            System.out.println("Please Enter Receiver Username:");
                             String username = scanner.nextLine();
-                            System.out.println("Please Enter The Amount You Want to Transfer: ");
+                            System.out.println("Please Enter The Amount You Want to Transfer:");
                             amount = scanner.nextDouble();
                             boolean transferred = true;
                             if (InstapaySystem.loadUser(username).getAccount() instanceof BankAccount && InstapaySystem.curUser.getAccount() instanceof BankAccount){
