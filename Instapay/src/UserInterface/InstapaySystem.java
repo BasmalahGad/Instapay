@@ -18,48 +18,35 @@ public class InstapaySystem {
         ProviderAuthentication providerAuthentication = null;
         if (Objects.equals(bankName, "FAISAL")) {
             providerAuthentication = new FaisalAuthentication();
-            return Registration.signUp(user, providerAuthentication);
+            ((BankAccount)user.getAccount()).setBankName(BankName.FAISAL);
         } else if (Objects.equals(bankName, "CIB")) {
-            // dummy till we have a cib class
-            return false;
-        } else {
-            // dummy as well
-            return true;
+            providerAuthentication = new CIBAuthentication();
+            ((BankAccount)user.getAccount()).setBankName(BankName.CIB);
         }
+        else{
+            return false;
+        }
+        return Registration.signUp(user, providerAuthentication) ;
     }
     public static boolean signUpWallet(String name, String mobile, String email, String username, String password,
                                 String walletNumber, String walletPassword, String walletProvider) {
         Account account = new WalletAccount(walletNumber, walletPassword);
         User user = new User(name, mobile, email, username, password, account);
         ProviderAuthentication providerAuthentication = null;
-        if (Objects.equals(walletProvider, "VODAFONE")) {
-            providerAuthentication = new FaisalAuthentication();
-            return Registration.signUp(user, providerAuthentication);
-        } else if (Objects.equals(walletProvider, "ORANGE")) {
-            // dummy till we have an orange class
-            return false;
+        if (Objects.equals(walletProvider, "Vodafone")) {
+            providerAuthentication = new VodafoneAuthentication();
+        } else if (Objects.equals(walletProvider, "Orange")) {
+            providerAuthentication = new OrangeAuthentication();
+
         } else {
-            // dummy as well
-            return true;
+            return false;
         }
+        return Registration.signUp(user, providerAuthentication);
     }
 
 
     public static boolean payBill(String billNum, String billType){
         BillPaymentMethod billPaymentMethod = null;
-        switch (billType){
-            case "1":{
-                billPaymentMethod.setBillService(new GasBillService(billNum));
-                break;
-            }case "2":{
-                billPaymentMethod.setBillService(new WaterBillService(billNum));
-                break;
-            }case "3":{
-                billPaymentMethod.setBillService(new ElectricityBillService(billNum));
-                break;
-            }
-        }
-
         if(InstapaySystem.curUser.getAccount() instanceof BankAccount){
             billPaymentMethod = new BankAccountBillPaymentMethod();
             if (((BankAccount)InstapaySystem.curUser.getAccount()).getBankName().equals("FAISAL")){
@@ -75,7 +62,18 @@ public class InstapaySystem {
                 ((WalletBillPaymentMethod)billPaymentMethod).setWalletAPI(new OrangeAPI());
             }
         }
-
+        switch (billType){
+            case "1":{
+                billPaymentMethod.setBillService(new GasBillService(billNum));
+                break;
+            }case "2":{
+                billPaymentMethod.setBillService(new WaterBillService(billNum));
+                break;
+            }case "3":{
+                billPaymentMethod.setBillService(new ElectricityBillService(billNum));
+                break;
+            }
+        }
         try{
             billPaymentMethod.payBill();
         }catch (Exception e){

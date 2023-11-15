@@ -28,7 +28,7 @@ public class WaterAPI implements BillAPI{
     public double getAmount(String billNum) {
         for (WaterBill bill: bills)
         {
-            if(Objects.equals(bill.getID(), ID))
+            if(Objects.equals(bill.getID(), billNum))
                 return bill.getAmount();
         }
         return 0;

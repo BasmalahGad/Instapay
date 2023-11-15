@@ -22,14 +22,19 @@ public class WalletBillPaymentMethod extends BillPaymentMethod {
     }
 
     public void setWalletAPI(WalletAPI walletAPI) {
+
         this.walletAPI = walletAPI;
+        initialize();
     }
 
     public WalletBillPaymentMethod() {
+
+    }
+
+    private void initialize(){
         walletAccount = (WalletAccount) InstapaySystem.curUser.getAccount();
         super.setBalance(walletAPI.getBalance(walletAccount.getPhoneNumber()));
     }
-
     @Override
     public void payBill() throws Exception {
         if(super.getBalance() >= super.getBillService().getBill().getAmount()){

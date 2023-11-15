@@ -1,13 +1,12 @@
 package Connections;
 
-import UserProfile.WalletAccount;
 
 import java.util.ArrayList;
 import java.util.Objects;
 
 
 public class VodafoneAPI implements WalletAPI{
-    public static ArrayList<WalletAccount> accounts;
+    public static ArrayList<WalletAPIAcc> accounts;
     public VodafoneAPI()
     {
         accounts = new ArrayList<>();
@@ -16,15 +15,15 @@ public class VodafoneAPI implements WalletAPI{
 
     @Override
     public boolean verifyMobile(String ID) {
-        for (WalletAccount account : accounts) {
-            if (Objects.equals(account.getPhoneNumber(), ID))
+        for (WalletAPIAcc account : accounts) {
+            if (Objects.equals(account.getMobile(), ID))
                 return true;
         }
         return false;    }
     @Override
     public double getBalance(String ID) {
-        for (WalletAccount account : accounts) {
-            if (Objects.equals(account.getPhoneNumber(), ID))
+        for (WalletAPIAcc account : accounts) {
+            if (Objects.equals(account.getMobile(), ID))
                 return account.getBalance();
         }
         return 0;
@@ -32,8 +31,8 @@ public class VodafoneAPI implements WalletAPI{
 
     @Override
     public void deposit(String ID, double amount) {
-        for (WalletAccount account : accounts) {
-            if (Objects.equals(account.getPhoneNumber(), ID))
+        for (WalletAPIAcc account : accounts) {
+            if (Objects.equals(account.getMobile(), ID))
             {
                 account.setBalance(amount);
                 return;
@@ -43,12 +42,11 @@ public class VodafoneAPI implements WalletAPI{
 
     private void addFakeAccounts()
     {
-        WalletAccount walletAccount = new WalletAccount();
-        walletAccount.setBalance(1000);
-        accounts.add(walletAccount);
-        walletAccount.setBalance(2000);
-        accounts.add(walletAccount);
-        walletAccount.setBalance(3000);
-        accounts.add(walletAccount);
+        WalletAPIAcc WalletAPIAcc = new WalletAPIAcc("01000000000", "1010", 1000);
+        accounts.add(WalletAPIAcc);
+        WalletAPIAcc = new WalletAPIAcc("01010000000", "1010", 1000);
+        accounts.add(WalletAPIAcc);
+        WalletAPIAcc = new WalletAPIAcc("01001000000", "1010", 1000);
+        accounts.add(WalletAPIAcc);
     }
 }

@@ -5,9 +5,9 @@ import UserProfile.User;
 import java.util.ArrayList;
 
 public class Database implements DatabaseAccessLayer{
-    private static ArrayList<User> users;
+    private static ArrayList<User> users = new ArrayList<>();
     public Database(){
-        users = new ArrayList<>();
+
     }
 
     @Override
@@ -18,7 +18,7 @@ public class Database implements DatabaseAccessLayer{
     @Override
     public User searchUser(String username, String password) {
         for (User user : users) {
-            if (user.getUsername() == username && user.getPassword() == password)
+            if (user.getUsername().equals(username) && user.getPassword().equals(password))
                 return user;
         }
         return null;
@@ -27,7 +27,7 @@ public class Database implements DatabaseAccessLayer{
     @Override
     public User contain(String username) {
         for (User user : users) {
-            if (user.getUsername() == username)
+            if (user.getUsername().equals(username))
                 return user;
         }
         return null;

@@ -22,14 +22,16 @@ public class BankAccountBillPaymentMethod extends BillPaymentMethod {
 
     public void setBankAPI(BankAPI bankAPI) {
         this.bankAPI = bankAPI;
+        initialize();
     }
 
     public BankAccountBillPaymentMethod() {
-        this.bankAPI = bankAPI;
+
+    }
+    private void initialize(){
         bankAccount = (BankAccount) InstapaySystem.curUser.getAccount();
         super.setBalance(bankAPI.getBalance(bankAccount.getCreditCardNumber()));
     }
-
     @Override
     public void payBill() throws Exception {
         if(super.getBalance() >= super.getBillService().getBill().getAmount()){
@@ -39,4 +41,5 @@ public class BankAccountBillPaymentMethod extends BillPaymentMethod {
             throw new Exception();
         }
     }
+
 }
