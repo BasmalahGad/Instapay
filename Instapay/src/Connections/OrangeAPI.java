@@ -43,7 +43,7 @@ public class OrangeAPI implements WalletAPI{
 
     private void addFakeAccounts()
     {
-        WalletAccount walletAccount = new WalletAccount();
+        WalletAccount walletAccount = new WalletAccount("01000000000", "1010");
         walletAccount.setBalance(1000);
         accounts.add(walletAccount);
         walletAccount.setBalance(2000);
