@@ -18,7 +18,7 @@ public class Database implements DatabaseAccessLayer{
     @Override
     public User searchUser(String username, String password) {
         for (User user : users) {
-            if (user.getInstapayProfile().getUserName() == username && user.getInstapayProfile().getPassword() == password)
+            if (user.getUsername() == username && user.getPassword() == password)
                 return user;
         }
         return null;
@@ -27,7 +27,7 @@ public class Database implements DatabaseAccessLayer{
     @Override
     public boolean contain(String username) {
         for (User user : users) {
-            if (user.getInstapayProfile().getUserName() == username)
+            if (user.getUsername() == username)
                 return true;
         }
         return false;
@@ -39,21 +39,21 @@ public class Database implements DatabaseAccessLayer{
         if(users.contains(user) )
         {
             int i = users.indexOf(user);
-            users.get(i).getInstapayProfile().setAccount(null);
+            users.get(i).setAccount(null);
             return true;
         }
         return false;
     }
 
 
-    @Override
-    public boolean removeInstapayProfile(User user) {
-        if(users.contains(user) )
-        {
-            int i = users.indexOf(user);
-            users.get(i).setInstapayProfile(null);
-            return true;
-        }
-        return false;
-    }
+//    @Override
+//    public boolean removeInstapayProfile(User user) {
+//        if(users.contains(user) )
+//        {
+//            int i = users.indexOf(user);
+//            users.get(i).setInstapayProfile(null);
+//            return true;
+//        }
+//        return false;
+//    }
 }

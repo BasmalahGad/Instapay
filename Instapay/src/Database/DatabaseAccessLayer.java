@@ -9,5 +9,5 @@ public interface DatabaseAccessLayer {
     public User searchUser(String username, String password);
     public boolean contain(String username);
     public boolean removeAccount(User user);
-    public boolean removeInstapayProfile(User user);
+//    public boolean removeInstapayProfile(User user);
 }
