@@ -1,6 +1,9 @@
 package UserInterface;
+import Connections.FaisalAPI;
+import Transactions.*;
 import UserProfile.*;
 import UserVerification.*;
+
 import java.util.*;
 public class InstapaySystem {
     public static User curUser = null;
@@ -59,5 +62,70 @@ public class InstapaySystem {
 //            registration = new BankRegistration();
 //        else
 //            registration = new WalletRegistration();
+    }
+
+
+
+
+
+    public void chooseService(){
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("Choose Service:");
+        String service = scanner.nextLine();
+        switch (service){
+            case "Pay bill":{
+                System.out.println("1- Gas \n 2- Electricity \n 3- Water \n");
+                String billType = scanner.nextLine();
+                Bill bill = null;
+                switch (billType){
+                    case "Gas": {
+                        bill = new GasBill();
+                        break;
+                    }case "Electricity": {
+                        bill = new ElectricityBill();
+                        break;
+                    }case "Water": {
+                        bill = new WaterBill();
+                        break;
+                    }
+                }
+                payBill(bill);
+                break;
+            } case "Send Money":{
+                System.out.println("to: \n 1- Bank Account \n 2- Mobile");
+                String transactionType = scanner.nextLine();
+                Transaction transaction = null;
+                String id;
+                switch (transactionType){
+                    case "Bank Account": {
+                        System.out.println("Please enter credit card number: ");
+                        id = scanner.nextLine();
+                        transaction = new BankAccountTransaction(new FaisalAPI());
+                        break;
+                    }case "Mobile": {
+                        System.out.println("Please mobile number: ");
+                        id = scanner.nextLine();
+                        transaction = new MobileTransaction();
+                        break;
+                    }
+                }
+                sendMoney(transaction, id);
+                break;
+            }
+        }
+    }
+
+    public void payBill(Bill bill){
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("Please enter el 3adad ID:");
+        String id = scanner.nextLine();
+        bill.create();
+        bill.deduct();
+
+    }
+
+    public boolean sendMoney(Transaction transaction, String id){
+
+        return false;
     }
 }

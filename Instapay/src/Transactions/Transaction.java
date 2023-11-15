@@ -1,17 +1,7 @@
 package Transactions;
 
-public class Bill{
-    private String ID;
+public abstract class Transaction {
     private double amount;
-
-    public String getID() {
-        return ID;
-    }
-
-    public void setID(String ID) {
-        this.ID = ID;
-    }
-
     public double getAmount() {
         return amount;
     }
@@ -20,4 +10,5 @@ public class Bill{
         this.amount = amount;
     }
 
+    public abstract void send();
 }
