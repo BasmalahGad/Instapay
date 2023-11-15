@@ -36,6 +36,7 @@ public abstract class BillService {
     public void deduct() {
         billAPI.pay(billNum);
     }
-    public abstract void create() throws Exception;
+
+    public abstract boolean create();
 
 }

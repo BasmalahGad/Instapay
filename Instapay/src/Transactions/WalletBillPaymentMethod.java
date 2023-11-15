@@ -36,12 +36,14 @@ public class WalletBillPaymentMethod extends BillPaymentMethod {
         super.setBalance(walletAPI.getBalance(walletAccount.getPhoneNumber()));
     }
     @Override
-    public void payBill() throws Exception {
-        if(super.getBalance() >= super.getBillService().getBill().getAmount()){
-            walletAPI.deposit(walletAccount.getPhoneNumber(), super.getBalance() - super.getBillService().getBill().getAmount());
-            super.getBillService().deduct();
-        }else{
-            throw new Exception();
+    public boolean payBill(){
+        if(super.getBillService().create()) {
+            if (super.getBalance() >= super.getBillService().getBill().getAmount()) {
+                walletAPI.deposit(walletAccount.getPhoneNumber(), super.getBalance() - super.getBillService().getBill().getAmount());
+                super.getBillService().deduct();
+                return true;
+            }
         }
+        return false;
     }
 }

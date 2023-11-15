@@ -7,10 +7,9 @@ import java.util.Objects;
 
 public class ElectricityAPI implements BillAPI{
 
-    public static ArrayList<ElectricityBill> bills;
+    public static ArrayList<ElectricityBill> bills = new ArrayList<>();;
     public ElectricityAPI()
     {
-        bills = new ArrayList<>();
         addFakeBills();
     }
 

@@ -7,10 +7,9 @@ import java.util.Objects;
 
 public class WaterAPI implements BillAPI{
 
-    public static ArrayList<WaterBill> bills;
+    public static ArrayList<WaterBill> bills = new ArrayList<>();
     public WaterAPI()
     {
-        bills = new ArrayList<>();
         addFakeBills();
     }
 

@@ -5,10 +5,10 @@ import java.util.ArrayList;
 import java.util.Objects;
 
 public class FaisalAPI implements BankAPI{
-    public ArrayList<BankAPIAcc> accounts;
+    public ArrayList<BankAPIAcc> accounts = new ArrayList<>();;
     public FaisalAPI()
     {
-        accounts = new ArrayList<>();
+
         addFakeAccounts();
     }
     @Override

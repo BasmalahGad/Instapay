@@ -6,10 +6,9 @@ import java.util.Objects;
 
 
 public class VodafoneAPI implements WalletAPI{
-    public static ArrayList<WalletAPIAcc> accounts;
+    public static ArrayList<WalletAPIAcc> accounts = new ArrayList<>();
     public VodafoneAPI()
     {
-        accounts = new ArrayList<>();
         addFakeAccounts();
     }
 

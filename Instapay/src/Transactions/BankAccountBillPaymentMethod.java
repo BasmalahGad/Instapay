@@ -33,13 +33,15 @@ public class BankAccountBillPaymentMethod extends BillPaymentMethod {
         super.setBalance(bankAPI.getBalance(bankAccount.getCreditCardNumber()));
     }
     @Override
-    public void payBill() throws Exception {
-        if(super.getBalance() >= super.getBillService().getBill().getAmount()){
-            bankAPI.deposit(bankAccount.getCreditCardNumber(), super.getBalance() - super.getBillService().getBill().getAmount());
-            super.getBillService().deduct();
-        }else{
-            throw new Exception();
+    public boolean payBill() {
+        if (super.getBillService().create()) {
+            if (super.getBalance() >= super.getBillService().getBill().getAmount()) {
+                bankAPI.deposit(bankAccount.getCreditCardNumber(), super.getBalance() - super.getBillService().getBill().getAmount());
+                super.getBillService().deduct();
+                return true;
+            }
         }
+        return false;
     }
 
 }

@@ -5,8 +5,10 @@ import Transactions.*;
 import UserProfile.BankAccount;
 import UserProfile.BankName;
 import UserProfile.WalletAccount;
+import UserProfile.WalletProvider;
 import UserVerification.OTP;
 
+import javax.management.MBeanAttributeInfo;
 import java.util.Scanner;
 
 public class GUI {
@@ -44,12 +46,24 @@ public class GUI {
                 switch (option2) {
                     case "1": {
                         System.out.println("Please Choose a Bank Name:\n1. Faisal Bank\n2. CIB");
-                        String bankName = scanner.nextLine();
+                        String bankNameCh = scanner.nextLine();
                         System.out.println("Please Enter Your Credit Card Number:");
                         String creditCardNumber = scanner.nextLine();
                         System.out.println("Please Enter Your Credit Card Password:");
                         String creditCardPassword = scanner.nextLine();
-                        bankName = "FAISAL";
+                        String bankName = null;
+                        switch (bankNameCh){
+                            case "1":{
+                                bankName = "FAISAL";
+                                break;
+                            } case "2":{
+                                bankName = "CIB";
+                                break;
+                            }default: {
+                                System.out.println("Invalid Option!");
+                                break;
+                            }
+                        }
                         boolean registered = InstapaySystem.signUpBank(name, mobile, email, username, password, creditCardNumber, creditCardPassword, bankName);
                         if (registered) {
                             System.out.println("Successful Registration!");
@@ -61,14 +75,28 @@ public class GUI {
                     }
                     case "2": {
                         System.out.println("Please Choose a Wallet Provider:\n1. Orange\n2. Vodafone");
-                        String walletProvider = scanner.nextLine();
+                        String walletProviderCh = scanner.nextLine();
                         System.out.println("Please Enter Your Wallet Number:");
                         String walletNumber = scanner.nextLine();
                         System.out.println("Please Enter Your Wallet Password:");
                         String walletPassword = scanner.nextLine();
+                        String walletProvider = null;
+                        switch (walletProviderCh){
+                            case "1":{
+                                walletProvider = "ORANGE";
+                                break;
+                            } case "2":{
+                                walletProvider = "VODAFONE";
+                                break;
+                            }default: {
+                                System.out.println("Invalid Option!");
+                                break;
+                            }
+                        }
                         boolean registered = InstapaySystem.signUpWallet(name, mobile, email, username, password, walletNumber, walletPassword, walletProvider);
                         if (registered) {
                             System.out.println("Successful Registration!");
+                            InstapaySystem.signIn(username, password);
                             loggedInUserOptions();
                         }else
                             System.out.println("Unable to Register!");
@@ -122,7 +150,7 @@ public class GUI {
                 if(!paid){
                     System.out.println("You Do not Have Enough Money to Pay This Bill");
                 }
-
+                break;
             } case "2":{
                 System.out.println("1. Transfer to Wallet\n2. Transfer to Instapay Account");
                 if(InstapaySystem.curUser.getAccount() instanceof BankAccount){
@@ -151,17 +179,17 @@ public class GUI {
                         boolean transferred = true;
                         if (InstapaySystem.loadUser(username).getAccount() instanceof BankAccount && InstapaySystem.curUser.getAccount() instanceof BankAccount){
                             String bankName = null;
-                            if(((BankAccount) InstapaySystem.loadUser(username).getAccount()).getBankName().equals("FAISAL")){
+                            if(((BankAccount) InstapaySystem.loadUser(username).getAccount()).getBankName().equals(BankName.FAISAL)){
                                 bankName = "FAISAL";
-                            }else if (((BankAccount) InstapaySystem.loadUser(username).getAccount()).getBankName().equals("CIB")){
+                            }else if (((BankAccount) InstapaySystem.loadUser(username).getAccount()).getBankName().equals(BankName.CIB)){
                                 bankName = "CIB";
                             }
                             transferred = InstapaySystem.sendMoneyBank(bankName, username, amount);
                         }else if (InstapaySystem.loadUser(username).getAccount() instanceof WalletAccount) {
                             String walletProvider = null;
-                            if (((WalletAccount) InstapaySystem.curUser.getAccount()).getWalletProvider().equals("VODAFONE")) {
+                            if (((WalletAccount) InstapaySystem.curUser.getAccount()).getWalletProvider().equals(WalletProvider.VODAFONE)) {
                                 walletProvider = "VODAFONE";
-                            } else if (((WalletAccount) InstapaySystem.curUser.getAccount()).getWalletProvider().equals("ORANGE")) {
+                            } else if (((WalletAccount) InstapaySystem.curUser.getAccount()).getWalletProvider().equals(WalletProvider.ORANGE)) {
                                 walletProvider = "ORANGE";
                             }
                             transferred = InstapaySystem.sendMoneyMobile(walletProvider, username, amount);

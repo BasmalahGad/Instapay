@@ -5,10 +5,9 @@ import java.util.ArrayList;
 import java.util.Objects;
 
 public class CIBAPI implements BankAPI{
-    public ArrayList<BankAPIAcc> accounts;
+    public ArrayList<BankAPIAcc> accounts = new ArrayList<>();
     public CIBAPI()
     {
-        accounts = new ArrayList<>();
         addFakeAccounts();
     }
     @Override

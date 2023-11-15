@@ -24,13 +24,17 @@ public class BankTransactionMethod extends TransactionMethod{
 
     public void setBankAPI(BankAPI bankAPI) {
         this.bankAPI = bankAPI;
+        initialize();
     }
 
     public BankTransactionMethod() {
+
+    }
+
+    private void initialize(){
         bankAccount = (BankAccount) InstapaySystem.curUser.getAccount();
         super.setBalance(bankAPI.getBalance(bankAccount.getCreditCardNumber()));
     }
-
     @Override
     public void createWalletTransaction(WalletAPI walletAPI, String mobile, double amount) throws Exception {
         if(getBalance() >= amount && walletAPI.verifyMobile(mobile)){

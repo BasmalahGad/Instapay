@@ -8,13 +8,13 @@ public class GasBillService extends BillService{
     }
 
     @Override
-    public void create() throws Exception {
+    public boolean create() {
         if(super.getBillAPI().searchBill(super.getBillNum())){
             super.setBill(new GasBill());
             super.getBill().setAmount(super.getBillAPI().getAmount(super.getBillNum()));
-        }else{
-            throw new Exception();
+            return true;
         }
+        return false;
     }
 
 }

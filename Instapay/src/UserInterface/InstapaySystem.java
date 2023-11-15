@@ -33,10 +33,12 @@ public class InstapaySystem {
         Account account = new WalletAccount(walletNumber, walletPassword);
         User user = new User(name, mobile, email, username, password, account);
         ProviderAuthentication providerAuthentication = null;
-        if (Objects.equals(walletProvider, "Vodafone")) {
+        if (Objects.equals(walletProvider, "VODAFONE")) {
             providerAuthentication = new VodafoneAuthentication();
-        } else if (Objects.equals(walletProvider, "Orange")) {
+            ((WalletAccount)user.getAccount()).setWalletProvider(WalletProvider.VODAFONE);
+        } else if (Objects.equals(walletProvider, "ORANGE")) {
             providerAuthentication = new OrangeAuthentication();
+            ((WalletAccount)user.getAccount()).setWalletProvider(WalletProvider.ORANGE);
 
         } else {
             return false;
@@ -49,16 +51,16 @@ public class InstapaySystem {
         BillPaymentMethod billPaymentMethod = null;
         if(InstapaySystem.curUser.getAccount() instanceof BankAccount){
             billPaymentMethod = new BankAccountBillPaymentMethod();
-            if (((BankAccount)InstapaySystem.curUser.getAccount()).getBankName().equals("FAISAL")){
+            if (((BankAccount)InstapaySystem.curUser.getAccount()).getBankName().equals(BankName.FAISAL)){
                 ((BankAccountBillPaymentMethod)billPaymentMethod).setBankAPI(new FaisalAPI());
-            }else if (((BankAccount)InstapaySystem.curUser.getAccount()).getBankName().equals("CIB")){
+            }else if (((BankAccount)InstapaySystem.curUser.getAccount()).getBankName().equals(BankName.CIB)){
                 ((BankAccountBillPaymentMethod)billPaymentMethod).setBankAPI(new CIBAPI());
             }
         }else if (InstapaySystem.curUser.getAccount() instanceof WalletAccount){
             billPaymentMethod = new WalletBillPaymentMethod();
-            if(((WalletAccount)InstapaySystem.curUser.getAccount()).getWalletProvider().equals("VODAFONE")){
+            if(((WalletAccount)InstapaySystem.curUser.getAccount()).getWalletProvider().equals(WalletProvider.VODAFONE)){
                 ((WalletBillPaymentMethod)billPaymentMethod).setWalletAPI(new VodafoneAPI());
-            }else if(((WalletAccount)InstapaySystem.curUser.getAccount()).getWalletProvider().equals("ORANGE")){
+            }else if(((WalletAccount)InstapaySystem.curUser.getAccount()).getWalletProvider().equals(WalletProvider.ORANGE)){
                 ((WalletBillPaymentMethod)billPaymentMethod).setWalletAPI(new OrangeAPI());
             }
         }

@@ -7,10 +7,10 @@ import java.util.Objects;
 
 public class GasAPI implements BillAPI{
 
-    public static ArrayList<GasBill> bills;
+    public static ArrayList<GasBill> bills = new ArrayList<>();
     public GasAPI()
     {
-        bills = new ArrayList<>();
+        //bills = new ArrayList<>();
         addFakeBills();
     }
 

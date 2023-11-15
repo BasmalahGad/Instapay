@@ -22,13 +22,16 @@ public class WalletTransactionMethod extends TransactionMethod{
 
     public void setWalletAPI(WalletAPI walletAPI) {
         this.walletAPI = walletAPI;
+        initialize();
     }
 
     public WalletTransactionMethod() {
+
+    }
+    private void initialize(){
         this.walletAccount =  (WalletAccount) InstapaySystem.curUser.getAccount();
         super.setBalance(walletAPI.getBalance(walletAccount.getPhoneNumber()));
     }
-
     @Override
     public void createWalletTransaction(WalletAPI walletAPI, String mobile, double amount) throws Exception {
         if(super.getBalance() >= amount && walletAPI.verifyMobile(mobile)){

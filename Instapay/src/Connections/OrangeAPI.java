@@ -6,10 +6,10 @@ import java.util.Objects;
 
 
 public class OrangeAPI implements WalletAPI{
-    public static ArrayList<WalletAPIAcc> accounts;
+    public static ArrayList<WalletAPIAcc> accounts = new ArrayList<>();;
     public OrangeAPI()
     {
-        accounts = new ArrayList<>();
+
         addFakeAccounts();
     }
 

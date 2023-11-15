@@ -19,5 +19,5 @@ public abstract class BillPaymentMethod {
         this.balance = balance;
     }
 
-    public abstract void payBill() throws Exception;
+    public abstract boolean payBill();
 }
