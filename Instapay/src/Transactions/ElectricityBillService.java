@@ -17,8 +17,4 @@ public class ElectricityBillService extends BillService{
         }
     }
 
-    @Override
-    public void deduct() {
-
-    }
 }

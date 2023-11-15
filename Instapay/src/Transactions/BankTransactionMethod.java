@@ -8,8 +8,26 @@ import UserProfile.BankAccount;
 
 public class BankTransactionMethod extends TransactionMethod{
     private BankAccount bankAccount;
-    public BankTransactionMethod(BankAPI bankAPI) {
-        bankAccount = (BankAccount) InstapaySystem.curUser.getInstapayProfile().getAccount();
+    private BankAPI bankAPI;
+
+    public BankAccount getBankAccount() {
+        return bankAccount;
+    }
+
+    public void setBankAccount(BankAccount bankAccount) {
+        this.bankAccount = bankAccount;
+    }
+
+    public BankAPI getBankAPI() {
+        return bankAPI;
+    }
+
+    public void setBankAPI(BankAPI bankAPI) {
+        this.bankAPI = bankAPI;
+    }
+
+    public BankTransactionMethod() {
+        bankAccount = (BankAccount) InstapaySystem.curUser.getAccount();
         super.setBalance(bankAPI.getBalance(bankAccount.getCreditCardNumber()));
     }
 

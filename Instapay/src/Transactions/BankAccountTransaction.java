@@ -15,7 +15,7 @@ public class BankAccountTransaction extends Transaction {
 
     @Override
     public void send() {
-        BankAccount bankAccount = (BankAccount) InstapaySystem.curUser.getInstapayProfile().getAccount();
+        BankAccount bankAccount = (BankAccount) InstapaySystem.curUser.getAccount();
         double balance = bankAPI.getBalance(bankAccount.getCreditCardNumber());
         bankAPI.deposit(bankAccount.getCreditCardNumber(), balance - getAmount());
         bankAPI.deposit(cardNumber, bankAPI.getBalance(cardNumber) + getAmount());

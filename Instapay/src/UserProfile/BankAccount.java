@@ -3,18 +3,18 @@ package UserProfile;
 public class BankAccount extends Account{
     String creditCardNumber;
     String creditCardPassword;
-    BankAccount bankAccount;
+    BankName bankName;
 
     public BankAccount(String creditCardNumber, String creditCardPassword) {
         super();
     }
 
-    public BankAccount getBankAccount() {
-        return bankAccount;
+    public BankName getBankName() {
+        return bankName;
     }
 
-    public void setBankAccount(BankAccount bankAccount) {
-        this.bankAccount = bankAccount;
+    public void setBankName(BankName bankName) {
+        this.bankName = bankName;
     }
 
     public String getCreditCardNumber() {

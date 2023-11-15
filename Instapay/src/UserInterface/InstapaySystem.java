@@ -1,5 +1,6 @@
 package UserInterface;
 import Connections.FaisalAPI;
+import Database.Database;
 import Transactions.*;
 import UserProfile.*;
 import UserVerification.*;
@@ -7,10 +8,10 @@ import UserVerification.*;
 import java.util.*;
 public class InstapaySystem {
     public static User curUser = null;
-    public boolean signIn(String username, String password) {
+    public static boolean signIn(String username, String password) {
         return AuthenticationService.signIn(username, password);
     }
-    public boolean signUpBank(String name, String mobile, String email, String username, String password,
+    public static boolean signUpBank(String name, String mobile, String email, String username, String password,
                               String creditCardNumber, String creditCardPassword, String bankName) {
         Account account = new BankAccount(creditCardNumber, creditCardPassword);
         User user = new User(name, mobile, email, username, password, account);
@@ -26,7 +27,7 @@ public class InstapaySystem {
             return true;
         }
     }
-    public boolean signUpWallet(String name, String mobile, String email, String username, String password,
+    public static boolean signUpWallet(String name, String mobile, String email, String username, String password,
                                 String walletNumber, String walletPassword, String walletProvider) {
         Account account = new WalletAccount(walletNumber, walletPassword);
         User user = new User(name, mobile, email, username, password, account);
@@ -44,67 +45,99 @@ public class InstapaySystem {
     }
 
 
-
-
-
-    public void chooseService(){
-        Scanner scanner = new Scanner(System.in);
-        System.out.println("Choose Service:");
-        String service = scanner.nextLine();
-        switch (service){
-            case "Pay bill":{
-                System.out.println("1- Gas \n 2- Electricity \n 3- Water \n");
-                String billType = scanner.nextLine();
-                Bill bill = null;
-                switch (billType){
-                    case "Gas": {
-                        bill = new GasBill();
-                        break;
-                    }case "Electricity": {
-                        bill = new ElectricityBill();
-                        break;
-                    }case "Water": {
-                        bill = new WaterBill();
-                        break;
-                    }
-                }
-                payBill(bill);
+    public static boolean payBill(String billNum, String billType){
+        BillPaymentMethod billPaymentMethod = null;
+        switch (billType){
+            case "1":{
+                billPaymentMethod.setBillService(new GasBillService(billNum));
                 break;
-            } case "Send Money":{
-                System.out.println("to: \n 1- Bank Account \n 2- Mobile");
-                String transactionType = scanner.nextLine();
-                Transaction transaction = null;
-                String id;
-                switch (transactionType){
-                    case "Bank Account": {
-                        System.out.println("Please enter credit card number: ");
-                        id = scanner.nextLine();
-                        transaction = new BankAccountTransaction(new FaisalAPI());
-                        break;
-                    }case "Mobile": {
-                        System.out.println("Please mobile number: ");
-                        id = scanner.nextLine();
-                        transaction = new MobileTransaction();
-                        break;
-                    }
-                }
-                sendMoney(transaction, id);
+            }case "2":{
+                billPaymentMethod.setBillService(new WaterBillService(billNum));
+                break;
+            }case "3":{
+                billPaymentMethod.setBillService(new ElectricityBillService(billNum));
                 break;
             }
         }
+
+        if(InstapaySystem.curUser.getAccount() instanceof BankAccount){
+            billPaymentMethod = new BankAccountBillPaymentMethod();
+            if (((BankAccount)InstapaySystem.curUser.getAccount()).getBankName().equals("Faisal")){
+                ((BankAccountBillPaymentMethod)billPaymentMethod).setBankAPI(new FaisalAPI());
+            }else if (((BankAccount)InstapaySystem.curUser.getAccount()).getBankName().equals("CIB")){
+                ((BankAccountBillPaymentMethod)billPaymentMethod).setBankAPI(new CIBAPI());
+            }
+        }else if (InstapaySystem.curUser.getAccount() instanceof WalletAccount){
+            billPaymentMethod = new WalletBillPaymentMethod();
+            if(((WalletAccount)InstapaySystem.curUser.getAccount()).getWalletProvider().equals("Vodafone")){
+                ((WalletBillPaymentMethod)billPaymentMethod).setWalletAPI(new VodafoneAPI());
+            }else if(((WalletAccount)InstapaySystem.curUser.getAccount()).getWalletProvider().equals("Orange")){
+                ((WalletBillPaymentMethod)billPaymentMethod).setWalletAPI(new OrangeAPI());
+            }
+        }
+
+        try{
+            billPaymentMethod.payBill();
+        }catch (Exception e){
+            return false;
+        }
+        return true;
     }
 
-    public void payBill(Bill bill){
-        Scanner scanner = new Scanner(System.in);
-        System.out.println("Please enter el 3adad ID:");
-        String id = scanner.nextLine();
-        bill.create();
-        bill.deduct();
+    public static boolean sendMoneyMobile(String walletProvider, String mobile, double amount){
+        TransactionMethod transactionMethod = null;
+        if(InstapaySystem.curUser.getAccount() instanceof BankAccount){
+            transactionMethod = new BankTransactionMethod();
+            if (((BankAccount)InstapaySystem.curUser.getAccount()).getBankName().equals("Faisal")){
+                ((BankTransactionMethod)transactionMethod).setBankAPI(new FaisalAPI());
+            }else if (((BankAccount)InstapaySystem.curUser.getAccount()).getBankName().equals("CIB")){
+                ((BankTransactionMethod)transactionMethod).setBankAPI(new CIBAPI());
+            }
 
+        }else if (InstapaySystem.curUser.getAccount() instanceof WalletAccount){
+            transactionMethod = new WalletTransactionMethod();
+            if(((WalletAccount)InstapaySystem.curUser.getAccount()).getWalletProvider().equals("Vodafone")){
+                ((WalletTransactionMethod)transactionMethod).setWalletAPI(new VodafoneAPI());
+            }else if(((WalletAccount)InstapaySystem.curUser.getAccount()).getWalletProvider().equals("Orange")){
+                ((WalletTransactionMethod)transactionMethod).setWalletAPI(new OrangeAPI());
+            }
+        }
+        try{
+            if(walletProvider.equals("Vodafone")){
+                transactionMethod.createWalletTransaction(new VodafoneAPI(), mobile, amount);
+            }else if (walletProvider.equals("Orange")){
+                transactionMethod.createWalletTransaction(new OrangeAPI(), mobile, amount);
+            }
+        }catch (Exception e){
+            return false;
+        }
+
+        return true;
+    }
+    public static boolean sendMoneyBank(String bankName, String cardNum, double amount){
+        TransactionMethod transactionMethod = null;
+        if(InstapaySystem.curUser.getAccount() instanceof BankAccount){
+            transactionMethod = new BankTransactionMethod();
+            if (((BankAccount)InstapaySystem.curUser.getAccount()).getBankName().equals("Faisal")){
+                ((BankTransactionMethod)transactionMethod).setBankAPI(new FaisalAPI());
+            }else if (((BankAccount)InstapaySystem.curUser.getAccount()).getBankName().equals("CIB")){
+                ((BankTransactionMethod)transactionMethod).setBankAPI(new CIBAPI());
+            }
+        }
+        try{
+            if(bankName.equals("CIB")){
+                ((BankTransactionMethod)transactionMethod).createBankAccountTransaction(new CIBAPI(), cardNum, amount);
+            }else if (bankName.equals("Faisal")){
+                ((BankTransactionMethod)transactionMethod).createBankAccountTransaction(new FaisalAPI(), cardNum, amount);
+            }
+        }catch (Exception e){
+            return false;
+        }
+        return true;
     }
 
-    public boolean sendMoney(Transaction transaction, String id){
-
-        return false;
+    public static User loadUser(String username){
+        Database database = new Database();
+        return database.contain(username);
     }
 }

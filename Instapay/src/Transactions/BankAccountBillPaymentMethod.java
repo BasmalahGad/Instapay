@@ -4,11 +4,29 @@ import Connections.BankAPI;
 import UserInterface.InstapaySystem;
 import UserProfile.BankAccount;
 
-public class BankAccountContext extends Context{
+public class BankAccountBillPaymentMethod extends BillPaymentMethod {
     private BankAccount bankAccount;
     private BankAPI bankAPI;
-    public BankAccountContext() {
-        bankAccount = (BankAccount) InstapaySystem.curUser.getInstapayProfile().getAccount();
+
+    public BankAccount getBankAccount() {
+        return bankAccount;
+    }
+
+    public void setBankAccount(BankAccount bankAccount) {
+        this.bankAccount = bankAccount;
+    }
+
+    public BankAPI getBankAPI() {
+        return bankAPI;
+    }
+
+    public void setBankAPI(BankAPI bankAPI) {
+        this.bankAPI = bankAPI;
+    }
+
+    public BankAccountBillPaymentMethod() {
+        this.bankAPI = bankAPI;
+        bankAccount = (BankAccount) InstapaySystem.curUser.getAccount();
         super.setBalance(bankAPI.getBalance(bankAccount.getCreditCardNumber()));
     }
 

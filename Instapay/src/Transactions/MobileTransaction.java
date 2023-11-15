@@ -16,7 +16,7 @@ public class MobileTransaction extends Transaction {
 
     @Override
     public void send() {
-        WalletAccount walletAccount = (WalletAccount) InstapaySystem.curUser.getInstapayProfile().getAccount();
+        WalletAccount walletAccount = (WalletAccount) InstapaySystem.curUser.getAccount();
         double balance = walletAPI.getBalance(walletAccount.getPhoneNumber());
         walletAPI.deposit(walletAccount.getPhoneNumber(), balance - getAmount());
         walletAPI.deposit(mobile, walletAPI.getBalance(mobile) + getAmount());

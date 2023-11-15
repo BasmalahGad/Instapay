@@ -1,10 +1,11 @@
 package Transactions;
 
+import Connections.BankAPI;
 import Connections.WalletAPI;
 import UserInterface.InstapaySystem;
 import UserProfile.WalletAccount;
 
-public class WalletTransactionMethod extends TransactionMethod{
+public class WalletBillPaymentMethod extends BillPaymentMethod {
     private WalletAccount walletAccount;
     private WalletAPI walletAPI;
 
@@ -24,16 +25,16 @@ public class WalletTransactionMethod extends TransactionMethod{
         this.walletAPI = walletAPI;
     }
 
-    public WalletTransactionMethod() {
-        this.walletAccount =  (WalletAccount) InstapaySystem.curUser.getAccount();
+    public WalletBillPaymentMethod() {
+        walletAccount = (WalletAccount) InstapaySystem.curUser.getAccount();
         super.setBalance(walletAPI.getBalance(walletAccount.getPhoneNumber()));
     }
 
     @Override
-    public void createWalletTransaction(WalletAPI walletAPI, String mobile, double amount) throws Exception {
-        if(super.getBalance() >= amount && walletAPI.verifyMobile(mobile)){
-            Transaction mobileTransaction = new MobileTransaction(walletAPI, mobile, amount);
-            mobileTransaction.send();
+    public void payBill() throws Exception {
+        if(super.getBalance() >= super.getBillService().getBill().getAmount()){
+            walletAPI.deposit(walletAccount.getPhoneNumber(), super.getBalance() - super.getBillService().getBill().getAmount());
+            super.getBillService().deduct();
         }else{
             throw new Exception();
         }

@@ -1,6 +1,6 @@
 package Transactions;
 
-public abstract class Context {
+public abstract class BillPaymentMethod {
     private BillService billService;
     private double balance;
     public BillService getBillService() {

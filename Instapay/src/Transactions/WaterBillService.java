@@ -18,8 +18,4 @@ public class WaterBillService extends BillService{
         }
     }
 
-    @Override
-    public void deduct() {
-
-    }
 }
