@@ -1,15 +1,14 @@
 package Connections;
 
-import UserProfile.BankAccount;
 import UserProfile.WalletAccount;
 
 import java.util.ArrayList;
 import java.util.Objects;
 
 
-public class WeAPI implements WalletAPI{
+public class VodafoneAPI implements WalletAPI{
     public static ArrayList<WalletAccount> accounts;
-    public WeAPI()
+    public VodafoneAPI()
     {
         accounts = new ArrayList<>();
         addFakeAccounts();
