@@ -5,9 +5,9 @@ import UserProfile.BankAccount;
 import java.util.ArrayList;
 import java.util.Objects;
 
-public class FaisalAPI implements BankAPI{
+public class CIBAPI implements BankAPI{
     public ArrayList<BankAccount> accounts;
-    public FaisalAPI()
+    public CIBAPI()
     {
         accounts = new ArrayList<>();
         addFakeAccounts();

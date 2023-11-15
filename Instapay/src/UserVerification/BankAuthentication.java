@@ -1,4 +1,6 @@
 package UserVerification;
 
-public interface BankAuthentication extends AuthenticationServices{
+import UserProfile.User;
+
+public interface BankAuthentication extends ProviderAuthentication {
 }

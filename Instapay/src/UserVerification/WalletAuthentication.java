@@ -1,4 +1,6 @@
 package UserVerification;
 
-public interface WalletAuthentication extends AuthenticationServices{
+import UserProfile.User;
+
+public interface WalletAuthentication extends ProviderAuthentication {
 }
