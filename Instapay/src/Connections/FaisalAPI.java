@@ -1,12 +1,11 @@
 package Connections;
 
-import UserProfile.BankAccount;
 
 import java.util.ArrayList;
 import java.util.Objects;
 
 public class FaisalAPI implements BankAPI{
-    public ArrayList<BankAccount> accounts;
+    public ArrayList<BankAPIAcc> accounts;
     public FaisalAPI()
     {
         accounts = new ArrayList<>();
@@ -14,16 +13,16 @@ public class FaisalAPI implements BankAPI{
     }
     @Override
     public boolean verifyCardNum(String ID) {
-        for (BankAccount account : accounts) {
-            if (Objects.equals(account.getCreditCardNumber(), ID))
+        for (BankAPIAcc account : accounts) {
+            if (Objects.equals(account.getCreditCardNum(), ID))
                 return true;
         }
         return false;
     }
     @Override
     public double getBalance(String ID) {
-        for (BankAccount account : accounts) {
-            if (Objects.equals(account.getCreditCardNumber(), ID))
+        for (BankAPIAcc account : accounts) {
+            if (Objects.equals(account.getCreditCardNum(), ID))
                 return account.getBalance();
         }
         return 0;
@@ -31,8 +30,8 @@ public class FaisalAPI implements BankAPI{
 
     @Override
     public void deposit(String ID, double amount) {
-        for (BankAccount account : accounts) {
-            if (Objects.equals(account.getCreditCardNumber(), ID))
+        for (BankAPIAcc account : accounts) {
+            if (Objects.equals(account.getCreditCardNum(), ID))
             {
                 account.setBalance(amount);
                 return;
@@ -42,19 +41,13 @@ public class FaisalAPI implements BankAPI{
 
     private void addFakeAccounts()
     {
-        BankAccount bankAccount = new BankAccount();
-        bankAccount.setCreditCardNumber("1111 2222 3333 4444");
-        bankAccount.setCreditCardPassword("1234");
-        bankAccount.setBalance(1000);
-        accounts.add(bankAccount);
-        bankAccount.setCreditCardNumber("2222 3333 4444 5555");
-        bankAccount.setCreditCardPassword("2345");
-        bankAccount.setBalance(2000);
-        accounts.add(bankAccount);
-        bankAccount.setCreditCardNumber("3333 4444 5555 6666");
-        bankAccount.setCreditCardPassword("3456");
-        bankAccount.setBalance(3000);
-        accounts.add(bankAccount);
+        BankAPIAcc BankAPIAcc = new BankAPIAcc("1111 2222 3333 4444", "1234",1000);
+        accounts.add(BankAPIAcc);
+        BankAPIAcc = new BankAPIAcc("2222 3333 4444 5555", "1234",1000);
+        accounts.add(BankAPIAcc);
+        BankAPIAcc = new BankAPIAcc("3333 4444 5555 6666", "1234",1000);
+        accounts.add(BankAPIAcc);
     }
 
 }
+
