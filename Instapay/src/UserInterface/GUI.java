@@ -1,14 +1,11 @@
 package UserInterface;
 
-import Database.Database;
-import Transactions.*;
 import UserProfile.BankAccount;
 import UserProfile.BankName;
 import UserProfile.WalletAccount;
 import UserProfile.WalletProvider;
 import UserVerification.OTP;
 
-import javax.management.MBeanAttributeInfo;
 import java.util.Scanner;
 
 public class GUI {
@@ -133,7 +130,7 @@ public class GUI {
 
     private void loggedInUserOptions(){
         System.out.println("Please Choose The Service You Want: ");
-        System.out.println("1. Pay Bill\n2. Transfer Money");
+        System.out.println("1. Pay Bill\n2. Transfer Money\n3. Inquire about Your Balance\n");
         String service = scanner.nextLine();
         switch (service){
             case "1":{
@@ -147,7 +144,9 @@ public class GUI {
                 System.out.println("Please Enter Bill Number: ");
                 billNum = scanner.nextLine();
                 boolean paid = InstapaySystem.payBill(billNum, billType);
-                if(!paid){
+                if(paid){
+                    System.out.println("Successful Payment :)");
+                }else{
                     System.out.println("You Do not Have Enough Money to Pay This Bill");
                 }
                 break;
@@ -167,8 +166,10 @@ public class GUI {
                         System.out.println("Please Enter The Amount You Want to Transfer: ");
                         amount = scanner.nextDouble();
                         boolean transferred = InstapaySystem.sendMoneyMobile(walletProvider, mobile, amount);
-                        if(!transferred){
-                            System.out.println("You Do not Have Enough Money to Transfer");
+                        if(transferred){
+                            System.out.println("Successful Transferring :)");
+                        }else{
+                            System.out.println("Failed to Transfer!");
                         }
                         break;
                     }case "2": {
@@ -184,21 +185,23 @@ public class GUI {
                             }else if (((BankAccount) InstapaySystem.loadUser(username).getAccount()).getBankName().equals(BankName.CIB)){
                                 bankName = "CIB";
                             }
-                            transferred = InstapaySystem.sendMoneyBank(bankName, username, amount);
-                        }else if (InstapaySystem.loadUser(username).getAccount() instanceof WalletAccount) {
+                            transferred = InstapaySystem.sendMoneyBank(bankName, ((BankAccount) InstapaySystem.loadUser(username).getAccount()).getCreditCardNumber(), amount);
+                        }else if (InstapaySystem.loadUser(username).getAccount() instanceof WalletAccount || InstapaySystem.loadUser(username).getAccount() instanceof BankAccount) {
                             String walletProvider = null;
                             if (((WalletAccount) InstapaySystem.curUser.getAccount()).getWalletProvider().equals(WalletProvider.VODAFONE)) {
                                 walletProvider = "VODAFONE";
                             } else if (((WalletAccount) InstapaySystem.curUser.getAccount()).getWalletProvider().equals(WalletProvider.ORANGE)) {
                                 walletProvider = "ORANGE";
                             }
-                            transferred = InstapaySystem.sendMoneyMobile(walletProvider, username, amount);
+                            transferred = InstapaySystem.sendMoneyMobile(walletProvider, ((WalletAccount) InstapaySystem.curUser.getAccount()).getPhoneNumber(), amount);
                         }else {
                             System.out.println("You Can Not Transfer to Bank Account");
                             return;
                         }
-                        if(!transferred){
-                            System.out.println("You Do not Have Enough Money to Transfer");
+                        if(transferred){
+                            System.out.println("Successful Transferring :)");
+                        }else{
+                            System.out.println("Failed to Transfer!");
                         }
                         break;
                     } case "3":{
@@ -208,9 +211,11 @@ public class GUI {
                         String cardNum = scanner.nextLine();
                         System.out.println("Please Enter The Amount You Want to Transfer: ");
                         amount = scanner.nextDouble();
-                        boolean transferred= InstapaySystem.sendMoneyBank(bankName, cardNum, amount);
-                        if(!transferred){
-                            System.out.println("You Do not Have Enough Money to Transfer");
+                        boolean transferred = InstapaySystem.sendMoneyBank(bankName, cardNum, amount);
+                        if(transferred){
+                            System.out.println("Successful Transferring :)");
+                        }else{
+                            System.out.println("Failed to Transfer!");
                         }
                         break;
                     }default: {
@@ -219,6 +224,13 @@ public class GUI {
                     }
                 }
                 break;
+            } case "3":{
+                System.out.println("Your Balance: ");
+                System.out.println(InstapaySystem.inquireBalance());
+                break;
+            }default: {
+            System.out.println("Invalid Option!");
+            break;
             }
         }
     }

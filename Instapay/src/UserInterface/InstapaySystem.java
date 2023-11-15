@@ -86,19 +86,20 @@ public class InstapaySystem {
 
     public static boolean sendMoneyMobile(String walletProvider, String mobile, double amount){
         TransactionMethod transactionMethod = null;
-        if(InstapaySystem.curUser.getAccount() instanceof BankAccount){
+        if(curUser.getAccount() instanceof BankAccount){
             transactionMethod = new BankTransactionMethod();
-            if (((BankAccount)InstapaySystem.curUser.getAccount()).getBankName().equals("FAISAL")){
+            if (((BankAccount)curUser.getAccount()).getBankName().equals("FAISAL")){
                 ((BankTransactionMethod)transactionMethod).setBankAPI(new FaisalAPI());
-            }else if (((BankAccount)InstapaySystem.curUser.getAccount()).getBankName().equals("CIB")){
+            }else if (((BankAccount)curUser.getAccount()).getBankName().equals("CIB")){
                 ((BankTransactionMethod)transactionMethod).setBankAPI(new CIBAPI());
             }
 
-        }else if (InstapaySystem.curUser.getAccount() instanceof WalletAccount){
+        }else if (curUser.getAccount() instanceof WalletAccount){
+            if(mobile.equals(((WalletAccount)curUser.getAccount()).getPhoneNumber())) return false;
             transactionMethod = new WalletTransactionMethod();
-            if(((WalletAccount)InstapaySystem.curUser.getAccount()).getWalletProvider().equals("VODAFONE")){
+            if(((WalletAccount)curUser.getAccount()).getWalletProvider().equals("VODAFONE")){
                 ((WalletTransactionMethod)transactionMethod).setWalletAPI(new VodafoneAPI());
-            }else if(((WalletAccount)InstapaySystem.curUser.getAccount()).getWalletProvider().equals("ORANGE")){
+            }else if(((WalletAccount)curUser.getAccount()).getWalletProvider().equals("ORANGE")){
                 ((WalletTransactionMethod)transactionMethod).setWalletAPI(new OrangeAPI());
             }
         }
@@ -116,11 +117,12 @@ public class InstapaySystem {
     }
     public static boolean sendMoneyBank(String bankName, String cardNum, double amount){
         TransactionMethod transactionMethod = null;
-        if(InstapaySystem.curUser.getAccount() instanceof BankAccount){
+        if(curUser.getAccount() instanceof BankAccount){
+            if(cardNum.equals(((BankAccount)curUser.getAccount()).getCreditCardNumber())) return false;
             transactionMethod = new BankTransactionMethod();
-            if (((BankAccount)InstapaySystem.curUser.getAccount()).getBankName().equals("FAISAL")){
+            if (((BankAccount)curUser.getAccount()).getBankName().equals(BankName.FAISAL)){
                 ((BankTransactionMethod)transactionMethod).setBankAPI(new FaisalAPI());
-            }else if (((BankAccount)InstapaySystem.curUser.getAccount()).getBankName().equals("CIB")){
+            }else if (((BankAccount)curUser.getAccount()).getBankName().equals(BankName.CIB)){
                 ((BankTransactionMethod)transactionMethod).setBankAPI(new CIBAPI());
             }
         }
@@ -139,5 +141,22 @@ public class InstapaySystem {
     public static User loadUser(String username){
         Database database = new Database();
         return (database.contain(username));
+    }
+
+    public static double inquireBalance(){
+        if(curUser.getAccount() instanceof BankAccount){
+            if (((BankAccount)curUser.getAccount()).getBankName().equals(BankName.FAISAL)){
+                return new FaisalAPI().getBalance(((BankAccount) curUser.getAccount()).getCreditCardNumber());
+            }else if (((BankAccount)curUser.getAccount()).getBankName().equals(BankName.CIB)){
+                return new CIBAPI().getBalance(((BankAccount) curUser.getAccount()).getCreditCardNumber());
+            }
+        }else if (curUser.getAccount() instanceof WalletAccount){
+            if (((WalletAccount)curUser.getAccount()).getWalletProvider().equals(WalletProvider.ORANGE)){
+                return new OrangeAPI().getBalance(((WalletAccount) curUser.getAccount()).getPhoneNumber());
+            }else if (((WalletAccount)curUser.getAccount()).getWalletProvider().equals(WalletProvider.VODAFONE)){
+                return new VodafoneAPI().getBalance(((WalletAccount) curUser.getAccount()).getPhoneNumber());
+            }
+        }
+        return 0.0;
     }
 }
