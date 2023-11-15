@@ -17,14 +17,13 @@ public class InstapaySystem {
         ProviderAuthentication providerAuthentication = null;
         if (Objects.equals(bankName, "Faisal")) {
             providerAuthentication = new FaisalAuthentication();
-            return Registration.signUp(user, providerAuthentication);
         } else if (Objects.equals(bankName, "CIB")) {
-            // dummy till we have a cib class
-            return false;
-        } else {
-            // dummy as well
-            return true;
+            providerAuthentication = new CIBAuthentication();
         }
+        else{
+            return false;
+        }
+        return Registration.signUp(user, providerAuthentication) ;
     }
     public boolean signUpWallet(String name, String mobile, String email, String username, String password,
                                 String walletNumber, String walletPassword, String walletProvider) {
@@ -32,15 +31,14 @@ public class InstapaySystem {
         User user = new User(name, mobile, email, username, password, account);
         ProviderAuthentication providerAuthentication = null;
         if (Objects.equals(walletProvider, "Vodafone")) {
-            providerAuthentication = new FaisalAuthentication();
-            return Registration.signUp(user, providerAuthentication);
+            providerAuthentication = new VodafoneAuthentication();
         } else if (Objects.equals(walletProvider, "Orange")) {
-            // dummy till we have an orange class
-            return false;
+            providerAuthentication = new OrangeAuthentication();
+
         } else {
-            // dummy as well
-            return true;
+            return false;
         }
+        return Registration.signUp(user, providerAuthentication);
     }
 
 
