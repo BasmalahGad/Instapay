@@ -10,8 +10,7 @@ public class Registration {
         if (providerAuthentication.authenticate(user) && database.contain(username) == null) {
             //to verify strong username and password
             //verify(user);
-            database.addNewUser(user);
-            return true;
+            return database.addNewUser(user);
         } else {
             return false;
         }
