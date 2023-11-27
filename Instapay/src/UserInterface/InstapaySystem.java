@@ -76,30 +76,25 @@ public class InstapaySystem {
                 break;
             }
         }
-        try{
-            billPaymentMethod.payBill();
-        }catch (Exception e){
-            return false;
-        }
-        return true;
+        return billPaymentMethod.payBill();
     }
 
     public static boolean sendMoneyMobile(String walletProvider, String mobile, double amount){
         TransactionMethod transactionMethod = null;
         if(curUser.getAccount() instanceof BankAccount){
             transactionMethod = new BankTransactionMethod();
-            if (((BankAccount)curUser.getAccount()).getBankName().equals("FAISAL")){
+            if (((BankAccount)curUser.getAccount()).getBankName().equals(BankName.FAISAL)){
                 ((BankTransactionMethod)transactionMethod).setBankAPI(new FaisalAPI());
-            }else if (((BankAccount)curUser.getAccount()).getBankName().equals("CIB")){
+            }else if (((BankAccount)curUser.getAccount()).getBankName().equals(BankName.CIB)){
                 ((BankTransactionMethod)transactionMethod).setBankAPI(new CIBAPI());
             }
 
         }else if (curUser.getAccount() instanceof WalletAccount){
             if(mobile.equals(((WalletAccount)curUser.getAccount()).getPhoneNumber())) return false;
             transactionMethod = new WalletTransactionMethod();
-            if(((WalletAccount)curUser.getAccount()).getWalletProvider().equals("VODAFONE")){
+            if(((WalletAccount)curUser.getAccount()).getWalletProvider().equals(WalletProvider.VODAFONE)){
                 ((WalletTransactionMethod)transactionMethod).setWalletAPI(new VodafoneAPI());
-            }else if(((WalletAccount)curUser.getAccount()).getWalletProvider().equals("ORANGE")){
+            }else if(((WalletAccount)curUser.getAccount()).getWalletProvider().equals(WalletProvider.ORANGE)){
                 ((WalletTransactionMethod)transactionMethod).setWalletAPI(new OrangeAPI());
             }
         }

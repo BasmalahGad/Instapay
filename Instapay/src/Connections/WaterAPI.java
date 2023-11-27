@@ -1,16 +1,20 @@
 package Connections;
 
+import Transactions.GasBill;
 import Transactions.WaterBill;
 
 import java.util.ArrayList;
 import java.util.Objects;
 
 public class WaterAPI implements BillAPI{
-
+    private static boolean fake = false;
     public static ArrayList<WaterBill> bills = new ArrayList<>();
     public WaterAPI()
     {
-        addFakeBills();
+        if (!fake){
+            addFakeBills();
+            fake = true;
+        }
     }
 
     @Override
@@ -43,18 +47,11 @@ public class WaterAPI implements BillAPI{
     }
     private void addFakeBills()
     {
-        WaterBill bill = new WaterBill();
-        bill.setID("1234");
-        bill.setAmount(100);
-        bills.add(bill);
-        bill.setID("2345");
-        bill.setAmount(200);
-        bills.add(bill);
-        bill.setID("3456");
-        bill.setAmount(300);
-        bills.add(bill);
-        bill.setID("4567");
-        bill.setAmount(400);
-        bills.add(bill);
+        for (int i = 0; i < 5; i++) {
+            WaterBill bill = new WaterBill();
+            bill.setAmount(10 + i * 2);
+            bill.setID("10" + String.valueOf(i));
+            bills.add(bill);
+        }
     }
 }

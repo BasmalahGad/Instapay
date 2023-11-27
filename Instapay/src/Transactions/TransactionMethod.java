@@ -13,5 +13,5 @@ public abstract class TransactionMethod {
         this.balance = balance;
     }
 
-    public abstract void createWalletTransaction(WalletAPI walletAPI, String mobile, double amount) throws Exception;
+    public abstract boolean createWalletTransaction(WalletAPI walletAPI, String mobile, double amount);
 }

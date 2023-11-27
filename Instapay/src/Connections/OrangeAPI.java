@@ -6,11 +6,15 @@ import java.util.Objects;
 
 
 public class OrangeAPI implements WalletAPI{
+    private static boolean fake = false;
     public static ArrayList<WalletAPIAcc> accounts = new ArrayList<>();;
     public OrangeAPI()
     {
 
-        addFakeAccounts();
+        if (!fake){
+            addFakeAccounts();
+            fake = true;
+        }
     }
 
     @Override

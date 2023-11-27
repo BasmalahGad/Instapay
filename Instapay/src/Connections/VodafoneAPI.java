@@ -6,10 +6,15 @@ import java.util.Objects;
 
 
 public class VodafoneAPI implements WalletAPI{
+    private static boolean fake = false;
     public static ArrayList<WalletAPIAcc> accounts = new ArrayList<>();
     public VodafoneAPI()
     {
-        addFakeAccounts();
+
+        if(!fake) {
+            addFakeAccounts();
+            fake = true;
+        }
     }
 
     @Override

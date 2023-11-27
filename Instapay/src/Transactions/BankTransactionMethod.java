@@ -36,22 +36,22 @@ public class BankTransactionMethod extends TransactionMethod{
         super.setBalance(bankAPI.getBalance(bankAccount.getCreditCardNumber()));
     }
     @Override
-    public void createWalletTransaction(WalletAPI walletAPI, String mobile, double amount) throws Exception {
+    public boolean createWalletTransaction(WalletAPI walletAPI, String mobile, double amount){
         if(getBalance() >= amount && walletAPI.verifyMobile(mobile)){
             Transaction mobileTransaction = new MobileTransaction(walletAPI, mobile, amount);
+            this.bankAPI.deposit(bankAccount.getCreditCardNumber(), super.getBalance() - amount);
             mobileTransaction.send();
-        }else{
-            throw new Exception();
-        }
+            return true;
+        }return false;
     }
 
-    public void createBankAccountTransaction(BankAPI bankAPI, String cardNumber, double amount) throws Exception {
+    public boolean createBankAccountTransaction(BankAPI bankAPI, String cardNumber, double amount){
         if(super.getBalance() >= amount && bankAPI.verifyCardNum(cardNumber)){
             Transaction bankTransaction = new BankAccountTransaction(bankAPI, cardNumber, amount);
+            this.bankAPI.deposit(bankAccount.getCreditCardNumber(), super.getBalance() - amount);
             bankTransaction.send();
-        }else{
-            throw new Exception();
+            return true;
         }
-
+        return false;
     }
 }

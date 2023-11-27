@@ -5,20 +5,17 @@ import UserInterface.InstapaySystem;
 import UserProfile.WalletAccount;
 
 public class MobileTransaction extends Transaction {
-    private WalletAPI walletAPI;
+    private WalletAPI recevierWalletAPI;
     private String mobile;
 
-    public MobileTransaction(WalletAPI walletAPI, String mobile, double amount) {
-        this.walletAPI = walletAPI;
+    public MobileTransaction(WalletAPI recevierWalletAPI, String mobile, double amount) {
+        this.recevierWalletAPI = recevierWalletAPI;
         this.mobile = mobile;
         super.setAmount(amount);
     }
 
     @Override
     public void send() {
-        WalletAccount walletAccount = (WalletAccount) InstapaySystem.curUser.getAccount();
-        double balance = walletAPI.getBalance(walletAccount.getPhoneNumber());
-        walletAPI.deposit(walletAccount.getPhoneNumber(), balance - getAmount());
-        walletAPI.deposit(mobile, walletAPI.getBalance(mobile) + getAmount());
+        recevierWalletAPI.deposit(mobile, recevierWalletAPI.getBalance(mobile) + getAmount());
     }
 }

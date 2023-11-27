@@ -17,7 +17,7 @@ public class GUI {
         boolean exit = false;
         while (!exit) {
             System.out.println("Choose the number of operation you want to do:");
-            System.out.println("1. Sign Up\n2. Sign In\n");
+            System.out.println("1. Sign Up\n2. Sign In\n3. Exit");
             String option = scanner.nextLine();
             switch (option) {
                 case "1": {
@@ -200,11 +200,11 @@ public class GUI {
         boolean exit = false;
         while (!exit) {
             System.out.println("Please Choose The Service You Want: ");
-            System.out.println("1. Pay Bill\n2. Transfer Money");
+            System.out.println("1. Pay Bill\n2. Transfer Money\n3. Inquire about Balance\n4. Exit");
             String service = scanner.nextLine();
-            while (!service.equals("1") && !service.equals("2")) {
+            while (!service.equals("1") && !service.equals("2") && !service.equals("3") && !service.equals("4")) {
                 System.out.println("Enter a valid option :");
-                System.out.println("1. Pay Bill\n2. Transfer Money");
+                System.out.println("1. Pay Bill\n2. Transfer Money\n3. Inquire about Balance\n4. Exit");
                 service = scanner.nextLine();
             }
             switch (service) {
@@ -224,7 +224,6 @@ public class GUI {
                         System.out.println("Successful Payment :)");
                     } else {
                         System.out.println("You Do not Have Enough Money to Pay This Bill");
-                        continue;
                     }
                     break;
 
@@ -259,6 +258,15 @@ public class GUI {
                                 System.out.println("Please Choose a Wallet Provider:\n1. Orange\n2. Vodafone");
                                 walletProvider = scanner.nextLine();
                             }
+                            switch (walletProvider){
+                                case "1": {
+                                    walletProvider = "ORANGE";
+                                    break;
+                                } case "2":{
+                                    walletProvider = "VODAFONE";
+                                    break;
+                                }
+                            }
                             String phoneRegex = "^0(10|11|12)\\d{8}$";
                             System.out.println("Please Enter Receiver Mobile Number: ");
                             String mobile = scanner.nextLine();
@@ -277,7 +285,6 @@ public class GUI {
                                 System.out.println("Successful Transferring :)");
                             } else {
                                 System.out.println("Failed to Transfer!");
-                                continue;
                             }
                             break;
                         }
@@ -290,42 +297,51 @@ public class GUI {
                                 System.out.println("Please Enter a valid Amount:");
                                 amount = scanner.nextDouble();
                             }
-                            boolean transferred = true;
+                            boolean transferred = false;
                             if (InstapaySystem.loadUser(username).getAccount() instanceof BankAccount && InstapaySystem.curUser.getAccount() instanceof BankAccount) {
                                 String bankName = null;
-                                if (((BankAccount) InstapaySystem.loadUser(username).getAccount()).getBankName().equals("FAISAL")) {
+                                if (((BankAccount) InstapaySystem.loadUser(username).getAccount()).getBankName().equals(BankName.FAISAL)) {
                                     bankName = "FAISAL";
-                                } else if (((BankAccount) InstapaySystem.loadUser(username).getAccount()).getBankName().equals("CIB")) {
+                                } else if (((BankAccount) InstapaySystem.loadUser(username).getAccount()).getBankName().equals(BankName.CIB)) {
                                     bankName = "CIB";
                                 }
-                                transferred = InstapaySystem.sendMoneyBank(bankName, username, amount);
+                                transferred = InstapaySystem.sendMoneyBank(bankName, ((BankAccount) InstapaySystem.loadUser(username).getAccount()).getCreditCardNumber(), amount);
                             } else if (InstapaySystem.loadUser(username).getAccount() instanceof WalletAccount) {
                                 String walletProvider = null;
-                                if (((WalletAccount) InstapaySystem.curUser.getAccount()).getWalletProvider().equals("VODAFONE")) {
+                                if (((WalletAccount) InstapaySystem.loadUser(username).getAccount()).getWalletProvider().equals(WalletProvider.VODAFONE)) {
                                     walletProvider = "VODAFONE";
-                                } else if (((WalletAccount) InstapaySystem.curUser.getAccount()).getWalletProvider().equals("ORANGE")) {
+                                } else if (((WalletAccount) InstapaySystem.loadUser(username).getAccount()).getWalletProvider().equals(WalletProvider.ORANGE)) {
                                     walletProvider = "ORANGE";
                                 }
-                                transferred = InstapaySystem.sendMoneyMobile(walletProvider, username, amount);
+                                transferred = InstapaySystem.sendMoneyMobile(walletProvider, ((WalletAccount)InstapaySystem.loadUser(username).getAccount()).getPhoneNumber(), amount);
                             } else {
                                 System.out.println("You Can Not Transfer to Bank Account");
-                                continue;
+
                             }
                             if (transferred) {
                                 System.out.println("Successful Transferring :)");
                             } else {
                                 System.out.println("Failed to Transfer!");
-                                continue;
+
                             }
                             break;
                         }
                         case "3": {
-                            System.out.println("Please Choose a Bank Name:\n1. Faisal Bank\n2. CIB");
+                            System.out.println("Please Choose a Bank Name:\n1. CIB Bank\n2. Faisal Bank");
                             String bankName = scanner.nextLine();
                             while (!bankName.equals("1") && !bankName.equals("2")) {
                                 System.out.println("Enter a valid option :");
-                                System.out.println("Please Choose a Bank Name:\n1. Faisal Bank\n2. CIB");
+                                System.out.println("Please Choose a Bank Name:\n1. CIB Bank\n2. Faisal Bank");
                                 bankName = scanner.nextLine();
+                            }
+                            switch (bankName){
+                                case "1":{
+                                    bankName = "CIB";
+                                    break;
+                                } case "2":{
+                                    bankName = "FAISAL";
+                                    break;
+                                }
                             }
                             System.out.println("Please Enter Receiver Credit Card Number: ");
                             String cardNum = scanner.nextLine();
@@ -348,6 +364,7 @@ public class GUI {
                             break;
                         }
                     }
+                    break;
                 }
                 case "3": {
                     System.out.println("Your Balance: ");

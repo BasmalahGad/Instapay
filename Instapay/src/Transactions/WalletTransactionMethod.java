@@ -33,12 +33,13 @@ public class WalletTransactionMethod extends TransactionMethod{
         super.setBalance(walletAPI.getBalance(walletAccount.getPhoneNumber()));
     }
     @Override
-    public void createWalletTransaction(WalletAPI walletAPI, String mobile, double amount) throws Exception {
+    public boolean createWalletTransaction(WalletAPI walletAPI, String mobile, double amount) {
         if(super.getBalance() >= amount && walletAPI.verifyMobile(mobile)){
             Transaction mobileTransaction = new MobileTransaction(walletAPI, mobile, amount);
+            this.walletAPI.deposit(walletAccount.getPhoneNumber(), super.getBalance() - amount);
             mobileTransaction.send();
-        }else{
-            throw new Exception();
+            return true;
         }
+        return false;
     }
 }

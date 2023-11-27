@@ -1,5 +1,6 @@
 package Connections;
 
+import Transactions.Bill;
 import Transactions.GasBill;
 
 import java.util.ArrayList;
@@ -7,12 +8,16 @@ import java.util.Objects;
 
 public class GasAPI implements BillAPI{
 
+    private static boolean fake = false;
     public static ArrayList<GasBill> bills = new ArrayList<>();
     public GasAPI()
     {
-        //bills = new ArrayList<>();
+        if (!fake){
         addFakeBills();
+        fake = true;
+        }
     }
+
 
     @Override
     public boolean searchBill(String billNum) {
@@ -44,18 +49,11 @@ public class GasAPI implements BillAPI{
     }
     private void addFakeBills()
     {
-        GasBill bill = new GasBill();
-        bill.setID("1234");
-        bill.setAmount(100);
-        bills.add(bill);
-        bill.setID("2345");
-        bill.setAmount(200);
-        bills.add(bill);
-        bill.setID("3456");
-        bill.setAmount(300);
-        bills.add(bill);
-        bill.setID("4567");
-        bill.setAmount(400);
-        bills.add(bill);
+        for (int i = 0; i < 5; i++) {
+            GasBill bill = new GasBill();
+            bill.setAmount(10 + i * 2);
+            bill.setID("10" + String.valueOf(i));
+            bills.add(bill);
+        }
     }
 }

@@ -5,10 +5,14 @@ import java.util.ArrayList;
 import java.util.Objects;
 
 public class CIBAPI implements BankAPI{
-    public ArrayList<BankAPIAcc> accounts = new ArrayList<>();
+    private static boolean fake = false;
+    private static ArrayList<BankAPIAcc> accounts = new ArrayList<>();
     public CIBAPI()
     {
-        addFakeAccounts();
+        if(!fake) {
+            addFakeAccounts();
+            fake = true;
+        }
     }
     @Override
     public boolean verifyCardNum(String ID) {

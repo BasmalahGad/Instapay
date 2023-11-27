@@ -5,11 +5,14 @@ import java.util.ArrayList;
 import java.util.Objects;
 
 public class FaisalAPI implements BankAPI{
-    public ArrayList<BankAPIAcc> accounts = new ArrayList<>();;
+    private static boolean fake = false;
+    private static ArrayList<BankAPIAcc> accounts = new ArrayList<>();;
     public FaisalAPI()
     {
-
-        addFakeAccounts();
+        if(!fake) {
+            addFakeAccounts();
+            fake = true;
+        }
     }
     @Override
     public boolean verifyCardNum(String ID) {
