@@ -4,7 +4,7 @@ import Connections.OrangeAPI;
 import UserProfile.User;
 import UserProfile.WalletAccount;
 
-public class OrangeAuthentication implements WalletAuthentication {
+public class OrangeAuthentication implements ProviderAuthentication {
     @Override
     public boolean authenticate(User user) {
         OrangeAPI orangeAPI = new OrangeAPI();

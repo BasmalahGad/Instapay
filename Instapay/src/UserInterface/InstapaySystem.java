@@ -17,10 +17,10 @@ public class InstapaySystem {
         User user = new User(name, mobile, email, username, password, account);
         ProviderAuthentication providerAuthentication = null;
         if (Objects.equals(bankName, "FAISAL")) {
-            providerAuthentication = new FaisalAuthentication();
+            providerAuthentication = (ProviderAuthentication) new FaisalAuthentication();
             ((BankAccount)user.getAccount()).setBankName(BankName.FAISAL);
         } else if (Objects.equals(bankName, "CIB")) {
-            providerAuthentication = new CIBAuthentication();
+            providerAuthentication = (ProviderAuthentication) new CIBAuthentication();
             ((BankAccount)user.getAccount()).setBankName(BankName.CIB);
         }
         else{
@@ -34,10 +34,10 @@ public class InstapaySystem {
         User user = new User(name, mobile, email, username, password, account);
         ProviderAuthentication providerAuthentication = null;
         if (Objects.equals(walletProvider, "VODAFONE")) {
-            providerAuthentication = new VodafoneAuthentication();
+            providerAuthentication = (ProviderAuthentication) new VodafoneAuthentication();
             ((WalletAccount)user.getAccount()).setWalletProvider(WalletProvider.VODAFONE);
         } else if (Objects.equals(walletProvider, "ORANGE")) {
-            providerAuthentication = new OrangeAuthentication();
+            providerAuthentication = (ProviderAuthentication) new OrangeAuthentication();
             ((WalletAccount)user.getAccount()).setWalletProvider(WalletProvider.ORANGE);
 
         } else {

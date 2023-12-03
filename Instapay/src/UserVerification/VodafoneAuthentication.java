@@ -4,7 +4,7 @@ import Connections.VodafoneAPI;
 import UserProfile.User;
 import UserProfile.WalletAccount;
 
-public class VodafoneAuthentication implements WalletAuthentication {
+public class VodafoneAuthentication implements ProviderAuthentication {
     @Override
     public boolean authenticate(User user) {
         VodafoneAPI VodafoneAPI = new VodafoneAPI();
