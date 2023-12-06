@@ -63,8 +63,9 @@ public class GUI {
                         System.out.println("1. At least one lowercase letter.\n" +
                                 "2. At least one uppercase letter.\n" +
                                 "3. At least one digit.\n" +
-                                "4. Minimum length of 8 characters." +
-                                "5. Maximum length of 20 characters.");
+                                "4. Minimum length of 8 characters.\n" +
+                                "5. Maximum length of 20 characters.\n" +
+                                "6. At least one special character");
                         System.out.println("Please Enter a Valid Password:");
                         password = scanner.nextLine();
                     }

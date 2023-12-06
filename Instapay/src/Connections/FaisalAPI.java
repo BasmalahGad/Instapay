@@ -46,9 +46,9 @@ public class FaisalAPI implements BankAPI{
     {
         BankAPIAcc BankAPIAcc = new BankAPIAcc("1111 2222 3333 4444", "1234",1000);
         accounts.add(BankAPIAcc);
-        BankAPIAcc = new BankAPIAcc("2222 3333 4444 5555", "1234",1000);
+        BankAPIAcc = new BankAPIAcc("2222 3333 4444 5555", "2345",1000);
         accounts.add(BankAPIAcc);
-        BankAPIAcc = new BankAPIAcc("3333 4444 5555 6666", "1234",1000);
+        BankAPIAcc = new BankAPIAcc("3333 4444 5555 6666", "3456",1000);
         accounts.add(BankAPIAcc);
     }
 

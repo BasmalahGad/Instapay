@@ -38,18 +38,6 @@ public class Database implements DatabaseAccessLayer{
         return null;
     }
 
-
-    @Override
-    public boolean removeAccount(User user) {
-        if(users.contains(user) )
-        {
-            int i = users.indexOf(user);
-            users.get(i).setAccount(null);
-            return true;
-        }
-        return false;
-    }
-
     private void addFakeUsers()
     {
         BankAccount account = new BankAccount("3333 4444 5555 6666", "3456");
